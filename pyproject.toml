@@ -3,7 +3,7 @@ name = "mdsist"
 version = "0.0.1"
 description = "Machine Learning project around MNIST dataset"
 authors = [
-  { name = "MDIST Team" },
+  { name = "MDSIST Team" },
 ]
 
 readme = "README.md"
