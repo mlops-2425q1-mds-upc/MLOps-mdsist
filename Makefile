@@ -2,7 +2,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = mdist
+PROJECT_NAME = mdsist
 PYTHON_VERSION = 3.10
 PYTHON_INTERPRETER = python
 
@@ -29,14 +29,14 @@ clean:
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	flake8 mdist
-	isort --check --diff --profile black mdist
-	black --check --config pyproject.toml mdist
+	flake8 mdsist
+	isort --check --diff --profile black mdsist
+	black --check --config pyproject.toml mdsist
 
 ## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml mdist
+	black --config pyproject.toml mdsist
 
 
 
@@ -51,7 +51,7 @@ format:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) mdist/dataset.py
+	$(PYTHON_INTERPRETER) mdsist/dataset.py
 
 
 #################################################################################

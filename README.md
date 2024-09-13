@@ -1,4 +1,4 @@
-# MDIST
+# MDSIST
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
@@ -27,7 +27,7 @@ Machine Learning project around MNIST dataset
 │                         `1.0-jqp-initial-data-exploration`.
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         mdist and configuration for tools like black
+│                         mdsist and configuration for tools like black
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
@@ -39,9 +39,9 @@ Machine Learning project around MNIST dataset
 │
 ├── setup.cfg          <- Configuration file for flake8
 │
-└── mdist   <- Source code for use in this project.
+└── mdsist   <- Source code for use in this project.
     │
-    ├── __init__.py             <- Makes mdist a Python module
+    ├── __init__.py             <- Makes mdsist a Python module
     │
     ├── config.py               <- Store useful variables and configuration
     │
