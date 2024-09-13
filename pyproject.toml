@@ -1,0 +1,51 @@
+[project]
+name = "mdist"
+version = "0.0.1"
+description = "Machine Learning project around MNIST dataset"
+authors = [
+  { name = "MDIST Team" },
+]
+
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    
+]
+requires-python = "~=3.10"
+
+[tool.black]
+line-length = 99
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+)/
+'''
+
+[tool.ruff.lint.isort]
+known_first_party = ["mdist"]
+force_sort_within_sections = true
+
+[tool.poetry]
+name = "mdist"
+version = "0.1.0"
+description = "Machine learning project around MNIST dataset"
+authors = ["pol-arevalo-soler <pol.arevalo@estudiantat.upc.edu>, adriaag <adria.aumatell@estudiantat.upc.edu>, rubenvb01 <ruben.villanueva@estudiantat.upc.edu>,  jizyong@gmail.com <zhengyong.ji@estudiantat.upc.edu>, gnscc <ignasi.cervero@estudiantat.upc.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.2"
+numpy = "^2.1.1"
+scikit-learn = "^1.5.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+pylint = "^3.2.7"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
