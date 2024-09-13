@@ -4,7 +4,7 @@ import typer
 from loguru import logger
 from tqdm import tqdm
 
-from mdist.config import MODELS_DIR, PROCESSED_DATA_DIR
+from mdsist.config import MODELS_DIR, PROCESSED_DATA_DIR
 
 app = typer.Typer()
 

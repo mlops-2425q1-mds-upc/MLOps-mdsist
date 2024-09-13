@@ -1,4 +1,4 @@
-# MDIST documentation!
+# mdsist documentation!
 
 ## Description
 
