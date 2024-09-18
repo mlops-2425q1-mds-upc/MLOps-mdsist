@@ -133,9 +133,17 @@ By disaggregating the evaluation across these factors, we can gain deeper insigh
 
 #### Metrics
 
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
+The performance of the CNN model was evaluated using the following metrics:
 
-{{ testing_metrics | default("[More Information Needed]", true)}}
+- **Accuracy**: The proportion of correctly classified digits out of the total digits. It is the primary metric used to evaluate the overall performance of the model on the MNIST dataset. Given that MNIST is a balanced dataset with 10 classes (digits 0-9), accuracy provides a clear and reliable measure of model effectiveness.
+  
+- **Precision**: The ratio of true positive classifications (correctly predicted digits) to the sum of true positives and false positives. It indicates the model’s ability to avoid false positives.
+  
+- **Recall (Sensitivity)**: The ratio of true positive classifications to the sum of true positives and false negatives. It reflects the model's ability to find all the positive instances (digits).
+  
+- **F1 Score**: The harmonic mean of precision and recall. It balances the two metrics, providing a single measure of performance, particularly useful when precision and recall are uneven.
+  
+- **Confusion Matrix**: Provides detailed insight into the model’s performance by showing the number of true positive, true negative, false positive, and false negative predictions for each class (digits 0-9). Particularly useful to recognize weak aspects of the model, such as confusing the digits 3 and 8.
 
 ### Results
 
