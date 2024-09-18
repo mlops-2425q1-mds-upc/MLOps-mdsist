@@ -4,11 +4,11 @@
 {{ card_data }}
 ---
 
-# Model Card for {{ model_id | default("Model ID", true) }}
+# Model Card for MNIST
 
 <!-- Provide a quick summary of what the model is/does. -->
 
-{{ model_summary | default("", true) }}
+This is a Convolutional Neural Network (CNN) model to classify grayscale images from the MNIST dataset.
 
 ## Model Details
 
@@ -18,21 +18,17 @@
 
 {{ model_description | default("", true) }}
 
-- **Developed by:** {{ developers | default("[More Information Needed]", true)}}
-- **Funded by [optional]:** {{ funded_by | default("[More Information Needed]", true)}}
-- **Shared by [optional]:** {{ shared_by | default("[More Information Needed]", true)}}
-- **Model type:** {{ model_type | default("[More Information Needed]", true)}}
-- **Language(s) (NLP):** {{ language | default("[More Information Needed]", true)}}
-- **License:** {{ license | default("[More Information Needed]", true)}}
+- **Developed by:** Adrià Aumatell, Pol Arevalo, Ignasi Cervero, Zhengyong Ji, Rubén Villanueva
+- **Model type:** Machine Learning Type, Deep Learning
+- **Language(s) (NLP):** PyTorch
+- **License:** [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 - **Finetuned from model [optional]:** {{ base_model | default("[More Information Needed]", true)}}
 
 ### Model Sources [optional]
 
 <!-- Provide the basic links for the model. -->
 
-- **Repository:** {{ repo | default("[More Information Needed]", true)}}
-- **Paper [optional]:** {{ paper | default("[More Information Needed]", true)}}
-- **Demo [optional]:** {{ demo | default("[More Information Needed]", true)}}
+- **Repository:** https://github.com/mlops-2425q1-mds-upc/MLOps-mdsist
 
 ## Uses
 
@@ -170,18 +166,6 @@ Carbon emissions can be estimated using the [Machine Learning Impact calculator]
 {{ software | default("[More Information Needed]", true)}}
 
 ## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
-
-**BibTeX:**
-
-{{ citation_bibtex | default("[More Information Needed]", true)}}
-
-**APA:**
-
-{{ citation_apa | default("[More Information Needed]", true)}}
-
-## Glossary [optional]
 
 <!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
 
