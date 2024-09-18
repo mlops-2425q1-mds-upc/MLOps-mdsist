@@ -60,7 +60,7 @@ This model is designed specifically for classifying black-and-white images of ha
 
 This model was trained only on the MNIST dataset, which includes grayscale images of handwritten digits. As a result, it may struggle with diverse handwriting styles, cultural variations, and digits written in formats not represented in the dataset. Its performance could vary across different demographic groups due to the lack of global handwriting diversity in the training data.
 
-### Risks
+### Risks
 
 This model is limited to recognizing handwritten digits from the MNIST dataset and may not generalize well to tasks involving letters, symbols, or noisy, colored images. Using it outside its intended scope, such as for real-world document analysis, can lead to inaccurate results. Over-reliance on this model in critical applications may result in misclassification with serious consequences.
 
@@ -86,7 +86,7 @@ The model was trained on the MNIST dataset, which consists of 70,000 grayscale i
 
 <!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
 
-#### Preprocessing [optional]
+#### Preprocessing
 
 {{ preprocessing | default("[More Information Needed]", true)}}
 
@@ -95,7 +95,7 @@ The model was trained on the MNIST dataset, which consists of 70,000 grayscale i
 
 - **Training regime:** {{ training_regime | default("[More Information Needed]", true)}} <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
 
-#### Speeds, Sizes, Times [optional]
+#### Speeds, Sizes, Times
 
 <!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
 
@@ -145,7 +145,7 @@ By disaggregating the evaluation across these factors, we can gain deeper insigh
 
 {{ results_summary | default("", true) }}
 
-## Model Examination [optional]
+## Model Examination
 
 <!-- Relevant interpretability work for the model goes here -->
 
@@ -163,7 +163,7 @@ Carbon emissions can be estimated using the [Machine Learning Impact calculator]
 - **Compute Region:** {{ cloud_region | default("[More Information Needed]", true)}}
 - **Carbon Emitted:** {{ co2_emitted | default("[More Information Needed]", true)}}
 
-## Technical Specifications [optional]
+## Technical Specifications
 
 ### Model Architecture and Objective
 
@@ -197,11 +197,11 @@ If you use this project in your research or applications, please consider citing
 }
 ```
 
-## More Information [optional]
+## More Information
 
 {{ more_information | default("[More Information Needed]", true)}}
 
-## Model Card Authors [optional]
+## Model Card Authors
 
 {{ model_card_authors | default("[More Information Needed]", true)}}
 
