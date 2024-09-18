@@ -21,9 +21,9 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
 - **Model type:** Machine Learning Type, Deep Learning
 - **Language(s) (NLP):** PyTorch
 - **License:** [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-- **Finetuned from model [optional]:** {{ base_model | default("[More Information Needed]", true)}}
+- **Finetuned from model:** {{ base_model | default("[More Information Needed]", true)}}
 
-### Model Sources [optional]
+### Model Sources 
 
 <!-- Provide the basic links for the model. -->
 
@@ -40,7 +40,7 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
 The primary intended use of this model is to classify images of handwritten digits from the MNIST dataset into one of ten categories (0-9). It was specifically designed for image classification tasks without requiring additional fine-tuning or integration into larger applications. This model is ideal for educational, research, and benchmarking purposes within the field of machine learning, particularly in the area of digit recognition.
 
 
-### Primary Intended Users [optional]
+### Primary Intended Users 
 
 <!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
 
@@ -181,7 +181,7 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 
 {{ software | default("[More Information Needed]", true)}}
 
-## Citation [optional]
+## Citation
 
 <!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
 
