@@ -139,7 +139,7 @@ The performance of the CNN model was evaluated using the following metrics:
   
 - **Precision**: The ratio of true positive classifications (correctly predicted digits) to the sum of true positives and false positives. It indicates the model’s ability to avoid false positives.
   
-- **Recall (Sensitivity)**: The ratio of true positive classifications to the sum of true positives and false negatives. It reflects the model's ability to find all the positive instances (digits).
+- **Recall**: The ratio of true positive classifications to the sum of true positives and false negatives. It reflects the model's ability to find all the positive instances (digits).
   
 - **F1 Score**: The harmonic mean of precision and recall. It balances the two metrics, providing a single measure of performance, particularly useful when precision and recall are uneven.
   
