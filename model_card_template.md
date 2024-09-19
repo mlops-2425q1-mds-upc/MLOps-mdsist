@@ -10,6 +10,46 @@
 
 This is a Convolutional Neural Network (CNN) model to classify grayscale images from the MNIST dataset.
 
+
+## Table of Contents
+
+- [Model Details](#model-details)
+  - [Model Description](#model-description)
+  - [Model Sources](#model-sources)
+- [Uses](#uses)
+  - [Primary Intended Use](#primary-intended-use)
+  - [Primary Intended Users](#primary-intended-users)
+  - [Out-of-Scope Use](#out-of-scope-use)
+- [Bias, Risks, and Limitations](#bias-risks-and-limitations)
+  - [Bias](#bias)
+  - [Risks](#risks)
+  - [Recommendations](#recommendations)
+- [How to Get Started with the Model](#how-to-get-started-with-the-model)
+- [Training Details](#training-details)
+  - [Training Data](#training-data)
+  - [Training Procedure](#training-procedure)
+    - [Preprocessing](#preprocessing)
+    - [Training Hyperparameters](#training-hyperparameters)
+    - [Speeds, Sizes, Times](#speeds-sizes-times)
+- [Evaluation](#evaluation)
+  - [Testing Data, Factors & Metrics](#testing-data-factors--metrics)
+    - [Testing Data](#testing-data)
+    - [Factors](#factors)
+    - [Metrics](#metrics)
+  - [Results](#results)
+    - [Summary](#summary)
+- [Model Examination](#model-examination)
+- [Environmental Impact](#environmental-impact)
+- [Technical Specifications](#technical-specifications)
+  - [Model Architecture and Objective](#model-architecture-and-objective)
+  - [Compute Infrastructure](#compute-infrastructure)
+    - [Hardware](#hardware)
+    - [Software](#software)
+- [Citation](#citation)
+- [More Information](#more-information)
+- [Model Card Authors](#model-card-authors)
+- [Model Card Contact](#model-card-contact)
+
 ## Model Details
 
 ### Model Description
@@ -211,8 +251,8 @@ If you use this project in your research or applications, please consider citing
 
 ## Model Card Authors
 
-{{ model_card_authors | default("[More Information Needed]", true)}}
+Adrià Aumatell, Pol Arevalo, Ignasi Cervero, Zhengyong Ji, Rubén Villanueva
 
 ## Model Card Contact
 
-{{ model_card_contact | default("[More Information Needed]", true)}}
+ignasi.cervero@estudiantat.upc.edu
