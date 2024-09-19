@@ -155,21 +155,21 @@ Same as the source data creators.
 
 ### Personal and Sensitive Information
 
-[More Information Needed]
+The Dataset does not reveal any personal and sensitive information of any individual. 
 
 ## Considerations for Using the Data
 
 ### Social Impact of Dataset
 
-[More Information Needed]
+The dataset is solely aim for pattern recognition purpose, with no social impact expected.
 
 ### Discussion of Biases
 
-[More Information Needed]
+The dataset does not contain any hateful nor discriminative information.
 
 ### Other Known Limitations
 
-[More Information Needed]
+The dataset contains only the digit images. No more limitation is known. 
 
 ## Additional Information
 
