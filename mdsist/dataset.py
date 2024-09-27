@@ -1,29 +1,25 @@
 from pathlib import Path
 
-import typer
-from loguru import logger
-from tqdm import tqdm
-
-from mdsist.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
-
-app = typer.Typer()
+import pandas as pd
+import torch
+from torch.utils.data import Dataset
+from torchvision.transforms import Compose
 
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    input_path: Path = RAW_DATA_DIR / "dataset.csv",
-    output_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
-    # ----------------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Processing dataset...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Processing dataset complete.")
-    # -----------------------------------------
+class MdsistDataset(Dataset):
+    def __init__(self, file_path: Path, transform: Compose | None = None):
+        self.data = pd.read_parquet(file_path)
+        self.transform = transform
 
+    def __len__(self):
+        return len(self.data)
 
-if __name__ == "__main__":
-    app()
+    def __getitem__(self, idx):
+        image = self.data.iloc[idx, :-1].values.astype("float32")
+        label = int(self.data.iloc[idx, -1])
+        image = image.reshape(1, 28, 28)
+
+        if self.transform:
+            image = self.transform(image)
+
+        return image, label
