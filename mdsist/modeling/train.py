@@ -1,10 +1,13 @@
 from pathlib import Path
 
+import mlflow
 import typer
 from loguru import logger
 from tqdm import tqdm
 
 from mdsist.config import MODELS_DIR, PROCESSED_DATA_DIR
+
+mlflow.set_experiment("iowa-house-prices")
 
 app = typer.Typer()
 
