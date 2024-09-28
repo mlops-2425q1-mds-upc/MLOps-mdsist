@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+import mlflow
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -34,6 +35,18 @@ class Trainer:
 
             train_stats = self.train_epoch(train_loader)
             val_stats = self.validate(val_loader)
+
+            # Log train metrics
+            mlflow.log_metric("train_accuracy", train_stats.accuracy, epoch)
+            mlflow.log_metric("train_precision", train_stats.precision, epoch)
+            mlflow.log_metric("train_recall", train_stats.recall, epoch)
+            mlflow.log_metric("train_f1_score", train_stats.f1_score, epoch)
+
+            # Log val metrics
+            mlflow.log_metric("val_accuracy", val_stats.accuracy, epoch)
+            mlflow.log_metric("val_precision", val_stats.precision, epoch)
+            mlflow.log_metric("val_recall", val_stats.recall, epoch)
+            mlflow.log_metric("val_f1_score", val_stats.f1_score, epoch)
 
             print(f"Epoch [{epoch+1}/{epochs}]")
             print(
