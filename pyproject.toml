@@ -46,6 +46,7 @@ loguru = "^0.7.2"
 python-dotenv = "^1.0.1"
 torch = { version = "2.4.1", source="torch"}
 torchvision = { version = "0.19.1", source="torch"}
+codecarbon = "^2.7.1"
 
 [[tool.poetry.source]]
 name = "torch"
