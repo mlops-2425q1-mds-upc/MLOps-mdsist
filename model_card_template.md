@@ -1,7 +1,6 @@
 ---
 # For reference on model card metadata, see the spec: https://github.com/huggingface/hub-docs/blob/main/modelcard.md?plain=1
 # Doc / guide: https://huggingface.co/docs/hub/model-cards
-{{ card_data }}
 ---
 
 # Model Card for MNIST
@@ -30,7 +29,6 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
   - [Training Procedure](#training-procedure)
     - [Preprocessing](#preprocessing)
     - [Training Hyperparameters](#training-hyperparameters)
-    - [Speeds, Sizes, Times](#speeds-sizes-times)
 - [Evaluation](#evaluation)
   - [Testing Data, Factors & Metrics](#testing-data-factors--metrics)
     - [Testing Data](#testing-data)
@@ -38,7 +36,6 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
     - [Metrics](#metrics)
   - [Results](#results)
     - [Summary](#summary)
-- [Model Examination](#model-examination)
 - [Environmental Impact](#environmental-impact)
 - [Technical Specifications](#technical-specifications)
   - [Model Architecture and Objective](#model-architecture-and-objective)
@@ -46,7 +43,6 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
     - [Hardware](#hardware)
     - [Software](#software)
 - [Citation](#citation)
-- [More Information](#more-information)
 - [Model Card Authors](#model-card-authors)
 - [Model Card Contact](#model-card-contact)
 
@@ -59,7 +55,6 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
 - **Developed by:** Adrià Aumatell, Pol Arevalo, Ignasi Cervero, Zhengyong Ji, Rubén Villanueva
 - **Model date** 18-09-2024
 - **Model type:** Machine Learning Type, Deep Learning
-- **Language(s) (NLP):** PyTorch
 - **License:** [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 - **Finetuned from model:** {{ base_model | default("[More Information Needed]", true)}}
 
@@ -128,18 +123,17 @@ The model was trained on the MNIST dataset, which consists of 70,000 grayscale i
 
 #### Preprocessing
 
-{{ preprocessing | default("[More Information Needed]", true)}}
+The preprocessing involves creating train, validation, and test splits to ensure proper model evaluation and performance assessment. Data is divided into these sets to train the model, validate it during training, and test it afterward on unseen data.
 
 
 #### Training Hyperparameters
 
-- **Training regime:** {{ training_regime | default("[More Information Needed]", true)}} <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
+The key hyperparameters used during training include:
 
-#### Speeds, Sizes, Times
-
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
-
-{{ speeds_sizes_times | default("[More Information Needed]", true)}}
+- **Learning rate**: Controls how quickly the model updates during training.
+- **Seed**: Ensures reproducibility by fixing the random initialization of weights.
+- **Epochs**: The number of complete passes through the training dataset.
+- **Batch size**: Determines the number of samples processed before updating the model weights.
 
 ## Evaluation
 
@@ -187,47 +181,60 @@ The performance of the CNN model was evaluated using the following metrics:
 
 ### Results
 
-{{ results | default("[More Information Needed]", true)}}
+---
+model-index:
+  - name: CNN
+    results:
+      - task:
+          type: image classification
+        dataset:
+          name: MNIST
+        metrics:
+          - name: Accuracy
+            value: 98.90
+        source:
+          name: CNN MNIST model
+          url: https://dagshub.com/Zhengyong8119/MLOps-mdsist.mlflow/#/experiments/2/runs/4578160aaefd45d7af36adcc65a1019f/artifacts 
+---
 
 #### Summary
 
-{{ results_summary | default("", true) }}
+The model is built using a Convolutional Neural Network (CNN) architecture specifically designed to classify images within the MNIST dataset using PyTorch and Torchvision. 
 
-## Model Examination
-
-<!-- Relevant interpretability work for the model goes here -->
-
-{{ model_examination | default("[More Information Needed]", true)}}
+- **Repository**: The repository for this project can be found at https://github.com/mlops-2425q1-mds-upc/MLOps-mdsist.
 
 ## Environmental Impact
 
 <!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
 
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
+CodeCarbon was used to compute the environmental impact.
 
-- **Hardware Type:** {{ hardware_type | default("[More Information Needed]", true)}}
-- **Hours used:** {{ hours_used | default("[More Information Needed]", true)}}
-- **Cloud Provider:** {{ cloud_provider | default("[More Information Needed]", true)}}
-- **Compute Region:** {{ cloud_region | default("[More Information Needed]", true)}}
-- **Carbon Emitted:** {{ co2_emitted | default("[More Information Needed]", true)}}
+- **Hardware Type:** GPU instance (1 x NVIDIA GeForce GTX 1650 with Max-Q Design).
+- **Hours used:** 0.1167 hours.
+- **Cloud Provider:** ESP
+- **Compute Region:** Catalonia
+- **Carbon Emitted:** 7.901e-4 kg_co2
 
 ## Technical Specifications
 
 ### Model Architecture and Objective
 
-The model is built using a Convolutional Neural Network (CNN) architecture specifically designed for classifying images within the MNIST dataset. CNNs are effective for image classification tasks due to their ability to automatically detect and learn spatial hierarchies of features through convolutional layers. This architecture enables the model to accurately recognize and categorize handwritten digits from the dataset, achieving high classification performance.
-
-### Compute Infrastructure
-
-{{ compute_infrastructure | default("[More Information Needed]", true)}}
+The model is built using a Convolutional Neural Network (CNN) architecture specifically designed for classifying images within the MNIST dataset. CNNs are effective for image classification tasks due to their ability to automatically detect and learn spatial hierarchies of features through convolutional layers. This architecture enables the model to accurately recognize and categorize handwritten digits from the dataset, achieving high classification performance. The precision of float32 was used for the model's computations.
 
 #### Hardware
 
-{{ hardware_requirements | default("[More Information Needed]", true)}}
+- **GPUs**: 1 x NVIDIA GeForce GTX 1650 GPU
+- **Memory**: 16 GB RAM
+- **Storage**: 100 GB SSD for datasets and model storage
+- **Training time**: 7 minutes
 
 #### Software
 
-{{ software | default("[More Information Needed]", true)}}
+- **Operating System**: Specify the OS (e.g., Ubuntu 20.04, Windows Server)
+- **Programming Languages**: Python 3.11
+- **Frameworks/Libraries**: PyTorch and Torchvision
+- **Version Control**: Git and DVC
+- **Other Tools**: Poetry
 
 ## Citation
 
@@ -244,10 +251,6 @@ If you use this project in your research or applications, please consider citing
   note = {Available at: https://github.com/mlops-2425q1-mds-upc/MLOps-mdsist}, 
 }
 ```
-
-## More Information
-
-{{ more_information | default("[More Information Needed]", true)}}
 
 ## Model Card Authors
 
