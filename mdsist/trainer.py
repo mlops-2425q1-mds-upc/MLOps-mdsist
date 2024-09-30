@@ -4,8 +4,12 @@ import mlflow
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import tqdm
+from loguru import logger
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from torch.utils.data import DataLoader
+
+import mdsist.util as util
 
 
 @dataclass
@@ -33,12 +37,13 @@ class Trainer:
         self.loss_function = nn.CrossEntropyLoss()
         self.device = device
         if self.device is None:
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            self.device = util.get_available_device()
 
     def train(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int) -> None:
         self.model.to(self.device)
 
-        for epoch in range(epochs):
+        logger.info(f"Start training for {epochs} epochs...")
+        for epoch in tqdm.tqdm(range(epochs), total=epochs):
 
             train_stats = self.train_epoch(train_loader)
             val_stats = self.validate(val_loader)
@@ -55,15 +60,17 @@ class Trainer:
             mlflow.log_metric("val_recall", val_stats.recall, epoch)
             mlflow.log_metric("val_f1_score", val_stats.f1_score, epoch)
 
-            print(f"Epoch [{epoch+1}/{epochs}]")
-            print(
+            logger.info(f"Epoch [{epoch+1}/{epochs}]")
+            logger.info(
                 f"Train Loss: {train_stats.loss:.4f} | Train Acc: {train_stats.accuracy:.4f} | "
                 f"Precision: {train_stats.precision:.4f} | Recall: {train_stats.recall:.4f} | F1 Score: {train_stats.f1_score:.4f}"
             )
-            print(
+            logger.info(
                 f"Val Loss: {val_stats.loss:.4f} | Val Acc: {val_stats.accuracy:.4f} | "
                 f"Precision: {val_stats.precision:.4f} | Recall: {val_stats.recall:.4f} | F1 Score: {val_stats.f1_score:.4f}"
             )
+
+        logger.info("Training completed.")
 
     def train_epoch(self, train_loader: DataLoader) -> TrainStats:
         # Training phase
