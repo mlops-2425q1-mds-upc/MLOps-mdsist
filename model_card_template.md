@@ -1,8 +1,3 @@
----
-# For reference on model card metadata, see the spec: https://github.com/huggingface/hub-docs/blob/main/modelcard.md?plain=1
-# Doc / guide: https://huggingface.co/docs/hub/model-cards
----
-
 # Model Card for MNIST
 
 <!-- Provide a quick summary of what the model is/does. -->
@@ -190,22 +185,24 @@ The performance of the CNN model was evaluated using the following metrics:
 ### Results
 
 ---
-model-index:
-  - name: CNN
-    Metadata:
+Model-index:
+  - Name: CNN
+    
+    - Metadata:
       - Parameters: 206922
       - Training data: MNIST
-      - Training resources: 
-    Results:
-      - task:
-          type: Image classification
-        dataset:
-          name: MNIST
-        metrics:
-          - name: Accuracy
-            value: 98.90
-        source:
-          name: CNN MNIST model
+      - Training resources: 1 x NVIDIA GeForce GTX 1650 with Max-Q Design
+    
+    - Results:
+      - Task:
+          Type: Image classification
+        Dataset:
+          Name: MNIST
+        Metrics:
+          - Name: Accuracy
+            Value: 98.90
+        Source:
+          Name: CNN MNIST model
           url: https://dagshub.com/Zhengyong8119/MLOps-mdsist.mlflow/#/experiments/2/runs/4578160aaefd45d7af36adcc65a1019f/artifacts 
 ---
 
