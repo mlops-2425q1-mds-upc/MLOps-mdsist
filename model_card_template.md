@@ -126,14 +126,18 @@ The preprocessing involves creating train, validation, and test splits to ensure
 
 The key hyperparameters used during training include:
 
-- **Learning rate**: Controls how quickly the model updates during training. In our model learning rate of 1e-4 was used.
+- **Adam optimizer**: For training our model, we used the Adam optimizer.
+- **Weight-decay**: A regularization term to prevent overfitting by penalizing large weights.
+ In our model we set the weight-decay to 0.
+- **Learning rate**: Controls how quickly the model updates during training. In our model learning rate of 1e-3 was used.
 - **Seed**: Ensures reproducibility by fixing the random initialization of weights. In our model a seed of 42 was used.
 - **Epochs**: The number of complete passes through the training dataset. In our model the epochs were set to 5.
 - **Batch size**: Determines the number of samples processed before updating the model weights. In our model a batch size of 64 was used.
+- **Loss**: In our model we use the Cross Entropy Loss.
 
 #### Speeds, Sizes, Times
 
-- **Training time**: 3.3 minutes
+- **Training time**: 198 seconds
 - **Batch size**: 64
 - **Parameters**: 206922
 - **Parameter size**: 0.79 MB
@@ -189,6 +193,7 @@ Model-index:
   - Name: CNN
     
     - Metadata:
+      - FLOPS: 1.29 MMac
       - Parameters: 206922
       - Training data: MNIST
       - Training resources: 1 x NVIDIA GeForce GTX 1650 with Max-Q Design
@@ -197,7 +202,8 @@ Model-index:
       - Task:
         - Type: Image classification
       - Dataset:
-        -  Name: MNIST
+        - Name: MNIST
+        - Size: 52.3 MB
       - Metrics:
           - Name: Accuracy
           -  Value: 98.90
@@ -223,7 +229,7 @@ CodeCarbon was used to compute the environmental impact.
 - **Hours used:** 0.055 hours
 - **Cloud Provider:** ESP
 - **Compute Region:** Catalonia
-- **Carbon Emitted:** 7.901e-4 kg_co2
+- **Carbon Emitted:** 0.3985 grams of CO2e
 
 ## Technical Specifications
 
@@ -236,11 +242,11 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 - **GPUs**: 1 x NVIDIA GeForce GTX 1650 GPU
 - **Memory**: 1 GB RAM
 - **Storage**: 10 GB SSD for datasets and model storage
-- **Training time**: 3.3 minutes
+- **Training time**: 198 seconds
 
 #### Software
 
-- **Operating System**: Specify the OS (e.g., Ubuntu 20.04, Windows Server)
+- **Operating System**: Ubuntu 22.04 
 - **Programming Languages**: Python 3.11
 - **Frameworks/Libraries**: PyTorch and Torchvision
 - **Version Control**: Git and DVC
