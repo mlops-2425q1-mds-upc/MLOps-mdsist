@@ -12,6 +12,7 @@ from torchvision.transforms import Compose
 class MdsistDataset(Dataset):
     def __init__(self, file_path: Path, transform: Compose | None = None):
         self.data = pd.read_parquet(file_path, engine="pyarrow")
+        self.data = self.data.reset_index(drop=True)
         self.transform = transform
 
     def decode_png_image(self, image_dict):
