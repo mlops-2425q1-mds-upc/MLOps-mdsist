@@ -202,7 +202,7 @@ Model-index:
           - Name: Accuracy
           -  Value: 98.90
     
-    -Source:
+    - Source:
       - Name: CNN MNIST model
       - url: https://dagshub.com/Zhengyong8119/MLOps-mdsist.mlflow/#/experiments/2/runs/4578160aaefd45d7af36adcc65a1019f/artifacts 
 ---
