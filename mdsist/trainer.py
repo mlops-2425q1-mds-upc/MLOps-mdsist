@@ -62,11 +62,11 @@ class Trainer:
 
             logger.info(f"Epoch [{epoch+1}/{epochs}]")
             logger.info(
-                f"Train Loss: {train_stats.loss:.4f} | Train Acc: {train_stats.accuracy:.4f} | "
+                f"[Train] Loss: {train_stats.loss:.4f} | Accuracy: {train_stats.accuracy:.4f} | "
                 f"Precision: {train_stats.precision:.4f} | Recall: {train_stats.recall:.4f} | F1 Score: {train_stats.f1_score:.4f}"
             )
             logger.info(
-                f"Val Loss: {val_stats.loss:.4f} | Val Acc: {val_stats.accuracy:.4f} | "
+                f"[Val  ] Loss: {val_stats.loss:.4f} | Accuracy: {val_stats.accuracy:.4f} | "
                 f"Precision: {val_stats.precision:.4f} | Recall: {val_stats.recall:.4f} | F1 Score: {val_stats.f1_score:.4f}"
             )
 
