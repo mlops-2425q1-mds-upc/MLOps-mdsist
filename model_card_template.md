@@ -29,6 +29,7 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
   - [Training Procedure](#training-procedure)
     - [Preprocessing](#preprocessing)
     - [Training Hyperparameters](#training-hyperparameters)
+    - [Speeds, Sizes, Times](#speeds-sizes-times)
 - [Evaluation](#evaluation)
   - [Testing Data, Factors & Metrics](#testing-data-factors--metrics)
     - [Testing Data](#testing-data)
@@ -130,10 +131,17 @@ The preprocessing involves creating train, validation, and test splits to ensure
 
 The key hyperparameters used during training include:
 
-- **Learning rate**: Controls how quickly the model updates during training.
-- **Seed**: Ensures reproducibility by fixing the random initialization of weights.
-- **Epochs**: The number of complete passes through the training dataset.
-- **Batch size**: Determines the number of samples processed before updating the model weights.
+- **Learning rate**: Controls how quickly the model updates during training. In our model learning rate of 1e-4 was used.
+- **Seed**: Ensures reproducibility by fixing the random initialization of weights. In our model a seed of 42 was used.
+- **Epochs**: The number of complete passes through the training dataset. In our model the epochs were set to 5.
+- **Batch size**: Determines the number of samples processed before updating the model weights. In our model a batch size of 64 was used.
+
+#### Speeds, Sizes, Times
+
+- **Training time**: 3.3 minutes
+- **Batch size**: 64
+- **Parameters**: 206922
+- **Parameter size**: 0.79 MB
 
 ## Evaluation
 
@@ -184,9 +192,13 @@ The performance of the CNN model was evaluated using the following metrics:
 ---
 model-index:
   - name: CNN
-    results:
+    Metadata:
+      - Parameters: 206922
+      - Training data: MNIST
+      - Training resources: 
+    Results:
       - task:
-          type: image classification
+          type: Image classification
         dataset:
           name: MNIST
         metrics:
@@ -209,8 +221,8 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 
 CodeCarbon was used to compute the environmental impact.
 
-- **Hardware Type:** GPU instance (1 x NVIDIA GeForce GTX 1650 with Max-Q Design).
-- **Hours used:** 0.1167 hours.
+- **Hardware Type:** GPU instance (1 x NVIDIA GeForce GTX 1650 with Max-Q Design)
+- **Hours used:** 0.055 hours
 - **Cloud Provider:** ESP
 - **Compute Region:** Catalonia
 - **Carbon Emitted:** 7.901e-4 kg_co2
@@ -224,9 +236,9 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 #### Hardware
 
 - **GPUs**: 1 x NVIDIA GeForce GTX 1650 GPU
-- **Memory**: 16 GB RAM
-- **Storage**: 100 GB SSD for datasets and model storage
-- **Training time**: 7 minutes
+- **Memory**: 1 GB RAM
+- **Storage**: 10 GB SSD for datasets and model storage
+- **Training time**: 3.3 minutes
 
 #### Software
 
