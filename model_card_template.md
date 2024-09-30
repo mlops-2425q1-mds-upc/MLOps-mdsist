@@ -227,9 +227,10 @@ CodeCarbon was used to compute the environmental impact.
 
 - **Hardware Type:** GPU instance (1 x NVIDIA GeForce GTX 1650 with Max-Q Design)
 - **Hours used:** 0.055 hours
-- **Cloud Provider:** ESP
-- **Compute Region:** Catalonia
+- **Country:** Spain
+- **Region:** Catalonia
 - **Carbon Emitted:** 0.3985 grams of CO2e
+- **Power consumption** 0.0024 kWh
 
 ## Technical Specifications
 
