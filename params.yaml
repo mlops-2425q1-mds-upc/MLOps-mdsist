@@ -1,0 +1,4 @@
+preprocessing:
+  random_state: 42
+  training_split: 0.70
+  validation_split: 0.15
