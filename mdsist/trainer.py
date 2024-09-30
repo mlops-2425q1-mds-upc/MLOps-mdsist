@@ -22,11 +22,18 @@ class TrainStats(Stats):
 
 
 class Trainer:
-    def __init__(self, model: nn.Module, optimizer: optim.Optimizer) -> None:
+    def __init__(
+        self,
+        model: nn.Module,
+        optimizer: optim.Optimizer,
+        device: str | torch.device | None = None,
+    ) -> None:
         self.model = model
         self.optimizer = optimizer
         self.loss_function = nn.CrossEntropyLoss()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
+        if self.device is None:
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def train(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int) -> None:
         self.model.to(self.device)
