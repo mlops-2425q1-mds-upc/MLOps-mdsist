@@ -223,7 +223,7 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 
 <!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
 
-CodeCarbon was used to compute the environmental impact.
+In our project, we utilized CodeCarbon to measure the environmental impact of our model in terms of CO₂ emissions. It's important to note that the environmental impact calculation is based solely on the final model training, rather than including all the training iterations and experiments conducted throughout the entire project development cycle.
 
 - **Hardware Type:** GPU instance (1 x NVIDIA GeForce GTX 1650 with Max-Q Design)
 - **Hours used:** 0.055 hours
