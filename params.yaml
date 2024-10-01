@@ -2,3 +2,10 @@ preprocessing:
   random_state: 42
   training_split: 0.70
   validation_split: 0.15
+
+training:
+  experiment_id: pipelineTesting2
+  seed:  42
+  epochs: 5
+  batch_size: 64
+  learning_rate: 0.001

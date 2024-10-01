@@ -15,3 +15,23 @@ stages:
     - ./data/processed/test.parquet
     - ./data/processed/train.parquet
     - ./data/processed/validation.parquet
+
+
+  train:
+    cmd: python mdsist/modeling/train.py data/processed/train.parquet data/processed/validation.parquet
+      models/model.pt
+    deps:
+    - mdsist/architectures.py
+    - data/processed
+    - mdsist/dataset.py
+    - mdsist/modeling/train.py
+    - mdsist/trainer.py
+    - mdsist/util.py
+    params:
+    - training.batch_size
+    - training.epochs
+    - training.learning_rate
+    - training.seed
+    - training.experiment_id
+    outs:
+    - models/model.pt

@@ -1,21 +1,29 @@
-import pandas as pd
 import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 import yaml
 import sys
+import typer
+from pathlib import Path
 
-def main():
+app = typer.Typer()
+
+
+
+@app.command()
+def main(
+    raw_train_data: Path,
+    raw_test_data: Path,
+    processed_train_split: Path,
+    processed_validation_split: Path,
+    processed_test_split: Path,
+
+):
 
     params = yaml.safe_load(open("params.yaml"))["preprocessing"]
 
-    if len(sys.argv) != 6:
-        sys.stderr.write("Arguments error. Usage:\n")
-        sys.stderr.write("\tpython prepare.py raw-train-data.parquet raw-test-data.parquet processed-train-split processed-validation-split processed-test-split\n")
-        sys.exit(1)
-
     # Read test and train file, and then merge it together
-    files = [sys.argv[1], sys.argv[2]]
+    files = [raw_train_data, raw_test_data]
     tables = [pq.read_table(file) for file in files]
     combined_table = pa.concat_tables(tables)
     #pq.write_table(combined_table, "../data/raw/raw_data.parquet")
@@ -31,9 +39,9 @@ def main():
     validation = validation.reset_index(drop=True)
     test = test.reset_index(drop=True)
 
-    pq.write_table(pa.Table.from_pandas(train), sys.argv[3])
-    pq.write_table(pa.Table.from_pandas(validation), sys.argv[4])
-    pq.write_table(pa.Table.from_pandas(test), sys.argv[5])
+    pq.write_table(pa.Table.from_pandas(train), processed_train_split)
+    pq.write_table(pa.Table.from_pandas(validation), processed_validation_split)
+    pq.write_table(pa.Table.from_pandas(test), processed_test_split)
 
 if __name__ == "__main__":
-    main()
+    app()

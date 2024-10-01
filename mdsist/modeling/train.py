@@ -10,6 +10,8 @@ import typer
 from dotenv import load_dotenv
 from loguru import logger
 from torch.utils.data import DataLoader
+import yaml
+import sys
 
 import mdsist.util as util
 from mdsist.architectures import CNN
@@ -22,16 +24,19 @@ app = typer.Typer()
 
 @app.command()
 def main(
-    experiment_id: str,
-    train_set_path: Path = PROCESSED_DATA_DIR / "train.parquet",
-    val_set_path: Path = PROCESSED_DATA_DIR / "validation.parquet",
-    model_path: Path = MODELS_DIR / f"model_{util.get_current_YYYYmmDDhhmmss()}.pt",
-    seed: int = 42,
-    epochs: int = 5,
-    batch_size: int = 64,
-    learning_rate: float = 0.001,
+    train_set_path: Path,
+    val_set_path: Path,
+    model_path: Path,
     device: str | None = None,
 ) -> None:
+    
+    params = yaml.safe_load(open("params.yaml"))["training"]
+    
+    experiment_id = params["experiment_id"]
+    seed = params['seed']
+    epochs = params["epochs"]
+    batch_size = params["batch_size"]
+    learning_rate = params['learning_rate']
 
     # Load environment variables
     load_dotenv()
