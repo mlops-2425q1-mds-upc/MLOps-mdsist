@@ -21,7 +21,7 @@ def main():
     #pq.write_table(combined_table, "../data/raw/raw_data.parquet")
 
 
-    df = pd.read_parquet(combined_table, engine="pyarrow")
+    df = combined_table# pd.read_parquet(combined_table, engine="pyarrow")
 
     train, validation, test = \
                 np.split(df.sample(frac=1, random_state=params["random_state"]), 

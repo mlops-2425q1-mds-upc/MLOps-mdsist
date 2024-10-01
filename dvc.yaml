@@ -1,0 +1,17 @@
+stages:
+  prepare:
+    cmd: python ./mdsist/preprocessing.py ./data/raw/train-00000-of-00001.parquet
+      ./data/raw/test-00000-of-00001.parquet ./output/processed/train.parquet ./output/processed/validation.parquet
+      ./output/processed/test.parquet
+    deps:
+    - ./data/raw/test-00000-of-00001.parquet
+    - ./data/raw/train-00000-of-00001.parquet
+    - ./mdsist/preprocessing.py
+    params:
+    - preprocessing.random_state
+    - preprocessing.training_split
+    - preprocessing.validation_split
+    outs:
+    - ./output/processed/test.parquet
+    - ./output/processed/train.parquet
+    - ./output/processed/validation.parquet
