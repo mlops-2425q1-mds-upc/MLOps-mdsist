@@ -52,7 +52,6 @@ This is a Convolutional Neural Network (CNN) model to classify grayscale images 
 - **Model date** 18-09-2024
 - **Model type:** Machine Learning Type, Deep Learning
 - **License:** [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-- **Finetuned from model:** {{ base_model | default("[More Information Needed]", true)}}
 
 ### Model Sources 
 
@@ -126,18 +125,21 @@ The preprocessing involves creating train, validation, and test splits to ensure
 
 The key hyperparameters used during training include:
 
-- **Adam optimizer**: For training our model, we used the Adam optimizer.
-- **Weight-decay**: A regularization term to prevent overfitting by penalizing large weights.
- In our model we set the weight-decay to 0.
-- **Learning rate**: Controls how quickly the model updates during training. In our model learning rate of 1e-3 was used.
-- **Seed**: Ensures reproducibility by fixing the random initialization of weights. In our model a seed of 42 was used.
-- **Epochs**: The number of complete passes through the training dataset. In our model the epochs were set to 5.
-- **Batch size**: Determines the number of samples processed before updating the model weights. In our model a batch size of 64 was used.
-- **Loss**: In our model we use the Cross Entropy Loss.
+- **Optimizer**: Adam optimizer was used to train the model.
+- **Weight decay**: Set to 0, meaning no regularization was applied to the weights.
+- **Learning rate**: A learning rate of 1e-3 was used for model updates.
+- **Seed**: A seed of 42 was set to ensure reproducibility.
+- **Number of layers**: The model consists of 2 layers.
+- **Activation function**: ReLU was used as the activation function at each layer.
+- **Pooling**: Max pooling was applied during training.
+- **Epochs**: The model was trained for 5 epochs.
+- **Batch size**: A batch size of 64 was used.
+- **Loss function**: Cross Entropy Loss was employed for model optimization.
+
 
 #### Speeds, Sizes, Times
 
-- **Training time**: 198 seconds
+- **Training time**: 204 seconds
 - **Batch size**: 64
 - **Parameters**: 206922
 - **Parameter size**: 0.79 MB
@@ -152,7 +154,7 @@ The key hyperparameters used during training include:
 
 <!-- This should link to a Dataset Card if possible. -->
 
-The model evaluation was conducted using the MNIST dataset, which includes a separate test set of 10,000 grayscale images of handwritten digits. For more information about the testing data and its characteristics, please refer to the [MNIST Dataset Card](link-to-dataset-card).
+The model evaluation was conducted using the MNIST dataset, which includes a separate test set of 10,000 grayscale images of handwritten digits. For more information about the testing data and its characteristics, please refer to the [MNIST Dataset Card](https://github.com/mlops-2425q1-mds-upc/MLOps-mdsist/blob/main/mnist_datacard.md).
 
 #### Factors
 
@@ -206,7 +208,7 @@ Model-index:
         - Size: 52.3 MB
       - Metrics:
           - Name: Accuracy
-          -  Value: 98.90
+          -  Value: 98.18
     
     - Source:
       - Name: CNN MNIST model
@@ -215,9 +217,9 @@ Model-index:
 
 #### Summary
 
-The model is built using a Convolutional Neural Network (CNN) architecture specifically designed to classify images within the MNIST dataset using PyTorch and Torchvision. 
+Our CNN model, designed for image classification on the MNIST dataset, achieved an impressive accuracy of **98.18%**. The model was trained efficiently, requiring only **1.29 MMac FLOPS** and using **206,922 parameters**. Training was completed on a single **NVIDIA GeForce GTX 1650 with Max-Q Design**, demonstrating that even with modest computational resources, high accuracy can be achieved on standard tasks like digit classification.
 
-- **Repository**: The repository for this project can be found at https://github.com/mlops-2425q1-mds-upc/MLOps-mdsist.
+For further details and to access the trained model, visit [CNN MNIST Model](https://dagshub.com/Zhengyong8119/MLOps-mdsist.mlflow/#/experiments/2/runs/4578160aaefd45d7af36adcc65a1019f/artifacts).
 
 ## Environmental Impact
 
@@ -226,11 +228,11 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 In our project, we utilized CodeCarbon to measure the environmental impact of our model in terms of CO₂ emissions. It's important to note that the environmental impact calculation is based solely on the final model training, rather than including all the training iterations and experiments conducted throughout the entire project development cycle.
 
 - **Hardware Type:** GPU instance (1 x NVIDIA GeForce GTX 1650 with Max-Q Design)
-- **Hours used:** 0.055 hours
+- **Hours used:** 0.0567 hours
 - **Country:** Spain
 - **Region:** Catalonia
-- **Carbon Emitted:** 0.3985 grams of CO2e
-- **Power consumption** 0.0024 kWh
+- **Carbon Emitted:** 0.3182 grams of CO2e
+- **Power consumption** 0.0018 kWh
 
 ## Technical Specifications
 
@@ -243,7 +245,7 @@ The model is built using a Convolutional Neural Network (CNN) architecture speci
 - **GPUs**: 1 x NVIDIA GeForce GTX 1650 GPU
 - **Memory**: 1 GB RAM
 - **Storage**: 10 GB SSD for datasets and model storage
-- **Training time**: 198 seconds
+- **Training time**: 204 seconds
 
 #### Software
 
