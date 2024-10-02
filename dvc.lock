@@ -1,0 +1,37 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python ./mdsist/preprocessing.py ./data/raw/train-00000-of-00001.parquet
+      ./data/raw/test-00000-of-00001.parquet ./data/processed/train.parquet ./data/processed/validation.parquet
+      ./data/processed/test.parquet
+    deps:
+    - path: ./data/raw/test-00000-of-00001.parquet
+      hash: md5
+      md5: efc834dd13282f64d5b14a173f84c69f
+      size: 2595890
+    - path: ./data/raw/train-00000-of-00001.parquet
+      hash: md5
+      md5: d04baeb63720e9dc4aa6ecc1ba18d581
+      size: 15561616
+    - path: ./mdsist/preprocessing.py
+      hash: md5
+      md5: 74de92451e21824d3b20f58fa2dfcd42
+      size: 1450
+    params:
+      params.yaml:
+        preprocessing.random_state: 42
+        preprocessing.training_split: 0.7
+        preprocessing.validation_split: 0.15
+    outs:
+    - path: ./data/processed/test.parquet
+      hash: md5
+      md5: f780b1028628cda7d3965bd2517530b1
+      size: 2468923
+    - path: ./data/processed/train.parquet
+      hash: md5
+      md5: 1038d1362c15e84b966de5f9d92f7a69
+      size: 11508894
+    - path: ./data/processed/validation.parquet
+      hash: md5
+      md5: 1db4502ac1a926661a09bf0c58c23144
+      size: 2480735
