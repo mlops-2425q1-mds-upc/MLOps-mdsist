@@ -15,10 +15,10 @@ Machine Learning project around MNIST dataset
 ├── data
 │   ├── external       <- Data from third party sources.
 │   ├── processed      <- The final, canonical data sets for modeling.
-    │   ├── test.parquet
-    │   ├── train.parquet
-    │   ├── validation.parquet
-    │
+│   │   ├── test.parquet
+│   │   ├── train.parquet
+│   │   ├── validation.parquet
+│   │
 │   └── raw            <- The original, immutable data dump.
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
@@ -32,6 +32,12 @@ Machine Learning project around MNIST dataset
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
 │                         mdsist and configuration for tools like black
+│
+│
+└── cards    <- Contains the dataset and model cards
+│   │
+│   ├── mnist_data_card
+│   ├── model_card
 │
 └── mdsist   <- Source code for use in this project.
     │
