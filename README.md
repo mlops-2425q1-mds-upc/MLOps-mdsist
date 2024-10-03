@@ -14,47 +14,45 @@ Machine Learning project around MNIST dataset
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
 │   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
+    │   ├── test.parquet
+    │   ├── train.parquet
+    │   ├── validation.parquet
+    │
 │   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
 │
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
+├── notebooks          <- Jupyter notebooks.
+│   │
+│   ├── 1.0-ji-raw-data-preprocessing
+│   ├── 1.0-ji-raw-data-visualization
+│   ├── 2.0-ji-raw-data-split
+│   ├── 3.0-icc-train
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
 │                         mdsist and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
 │
 └── mdsist   <- Source code for use in this project.
     │
     ├── __init__.py             <- Makes mdsist a Python module
     │
+    ├── architectures.py        <- Defines a CNN model for image classification in PyTorch
+    │
     ├── config.py               <- Store useful variables and configuration
     │
     ├── dataset.py              <- Scripts to download or generate data
     │
-    ├── features.py             <- Code to create features for modeling
+    ├── preprocessing.py        <- Splits raw train and test data into processed train, validation, and test datasets.
+    │
+    ├── trainer.py              <- Trains and validates a model while logging metrics using MLflow.
+    │
+    ├── util.py                 <- Provides utility functions
     │
     ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+        ├── __init__.py 
+        ├── predict.py          <- Code to run model inference with trained models          
+        └── train.py            <- Code to train models
 ```
 
 --------
