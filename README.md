@@ -19,6 +19,10 @@ Machine Learning project around MNIST dataset
     │   ├── train.parquet
     │   ├── validation.parquet
     │
+│   │   ├── test.parquet
+│   │   ├── train.parquet
+│   │   ├── validation.parquet
+│   │
 │   └── raw            <- The original, immutable data dump.
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
@@ -29,13 +33,27 @@ Machine Learning project around MNIST dataset
 │   ├── 1.0-ji-raw-data-visualization
 │   ├── 2.0-ji-raw-data-split
 │   ├── 3.0-icc-train
+├── notebooks          <- Jupyter notebooks.
+│   │
+│   ├── 1.0-ji-raw-data-preprocessing
+│   ├── 1.0-ji-raw-data-visualization
+│   ├── 2.0-ji-raw-data-split
+│   ├── 3.0-icc-train
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
 │                         mdsist and configuration for tools like black
 │
+│
+└── cards    <- Contains the dataset and model cards
+│   │
+│   ├── mnist_data_card
+│   ├── model_card
+│
 └── mdsist   <- Source code for use in this project.
     │
     ├── __init__.py             <- Makes mdsist a Python module
+    │
+    ├── architectures.py        <- Defines a CNN model for image classification in PyTorch
     │
     ├── architectures.py        <- Defines a CNN model for image classification in PyTorch
     │
@@ -48,8 +66,16 @@ Machine Learning project around MNIST dataset
     ├── trainer.py              <- Trains and validates a model while logging metrics using MLflow.
     │
     ├── util.py                 <- Provides utility functions
+    ├── preprocessing.py        <- Splits raw train and test data into processed train, validation, and test datasets.
+    │
+    ├── trainer.py              <- Trains and validates a model while logging metrics using MLflow.
+    │
+    ├── util.py                 <- Provides utility functions
     │
     ├── modeling                
+        ├── __init__.py 
+        ├── predict.py          <- Code to run model inference with trained models          
+        └── train.py            <- Code to train models
         ├── __init__.py 
         ├── predict.py          <- Code to run model inference with trained models          
         └── train.py            <- Code to train models
