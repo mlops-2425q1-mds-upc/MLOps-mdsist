@@ -1,16 +1,34 @@
 # MDSIST
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+The aim of the project is to implement a CNN  model for image classification on the MNIST dataset.  The MNIST dataset is widely used in academic and research settings, providing a well-understood and manageable challenge that allows our team to focus on applying MLOps principles rather than data collection or preprocessing challenges.
 
-Machine Learning project around MNIST dataset
+## Project Setup
+
+### Prerequisites
+* Python 3.11 or higher
+* Poetry Python package
+
+### Steps
+
+1. Install dependences:
+```shell
+poetry install
+```
+2. Edit project parameters present on `params.yaml` as you wish.
+
+3. Use `dist.env` as a template to create a `.env` file with the corresponding information
+
+4. Execute DVC pipeline:
+
+```shell
+dvc repro
+```
 
 ## Project Organization
 
 ```
 ├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
+├── Makefile           <- Makefile with convenience commands
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
 │   ├── external       <- Data from third party sources.
