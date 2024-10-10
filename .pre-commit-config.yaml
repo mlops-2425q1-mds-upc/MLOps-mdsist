@@ -13,7 +13,7 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: "C:/Users/Adria.Portatil-Adria/AppData/Local/pypoetry/Cache/virtualenvs/mdsist-j1bbbV5p-py3.11/Scripts/pylint.exe"
+        entry: pylint
         types: [python]
         language: python
         additional_dependencies: [pylint]
@@ -21,6 +21,18 @@ repos:
         args:
           [
             "--max-locals=30"
+          ]
+      
+      - id: pynblint
+        name: pynblint
+        entry: pynblint
+        types: [python]
+        language: python
+        additional_dependencies: [pylint]
+        require_serial: true
+        args:
+          [
+
           ]
 
 
