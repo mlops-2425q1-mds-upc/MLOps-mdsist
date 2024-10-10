@@ -17,6 +17,7 @@ repos:
         types: [python]
         language: python
         additional_dependencies: [pylint]
+        require_serial: true
         args:
           [
             "--max-locals=30"
