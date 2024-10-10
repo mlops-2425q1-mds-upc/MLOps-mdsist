@@ -1,19 +1,24 @@
+"""
+Trainer classes for handling model training and validation.
+"""
+
 from dataclasses import dataclass
 
 import mlflow
 import torch
-import torch.nn as nn
-import torch.optim as optim
 import tqdm
 from loguru import logger
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from torch import nn, optim
 from torch.utils.data import DataLoader
 
-import mdsist.util as util
+from mdsist import util
 
 
 @dataclass
 class Stats:
+    """Stats obtained from the model training"""
+
     accuracy: float
     precision: float
     recall: float
@@ -22,16 +27,31 @@ class Stats:
 
 @dataclass
 class TrainStats(Stats):
+    """Stats required for the model training"""
+
     loss: float
 
 
 class Trainer:
+    """Trainer class for handling model training and validation.
+
+    This class encapsulates the training and validation processes for a PyTorch model,
+    logging relevant metrics to MLflow.
+    """
+
     def __init__(
         self,
         model: nn.Module,
         optimizer: optim.Optimizer,
         device: str | torch.device | None = None,
     ) -> None:
+        """Initializes the Trainer.
+
+        Args:
+            model (nn.Module): The neural network model to be trained.
+            optimizer (optim.Optimizer): The optimizer used for training.
+            device (str | torch.device | None): The device to run the model on (CPU/GPU).
+        """
         self.model = model
         self.optimizer = optimizer
         self.loss_function = nn.CrossEntropyLoss()
@@ -40,11 +60,17 @@ class Trainer:
             self.device = util.get_available_device()
 
     def train(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int) -> None:
+        """Trains the model for a specified number of epochs.
+
+        Args:
+            train_loader (DataLoader): DataLoader for the training set.
+            val_loader (DataLoader): DataLoader for the validation set.
+            epochs (int): Number of epochs to train the model.
+        """
         self.model.to(self.device)
 
         logger.info(f"Start training for {epochs} epochs...")
         for epoch in tqdm.tqdm(range(epochs), total=epochs):
-
             train_stats = self.train_epoch(train_loader)
             val_stats = self.validate(val_loader)
 
@@ -60,19 +86,30 @@ class Trainer:
             mlflow.log_metric("val_recall", val_stats.recall, epoch)
             mlflow.log_metric("val_f1_score", val_stats.f1_score, epoch)
 
-            logger.info(f"Epoch [{epoch+1}/{epochs}]")
+            logger.info(f"Epoch [{epoch + 1}/{epochs}]")
             logger.info(
                 f"[Train] Loss: {train_stats.loss:.4f} | Accuracy: {train_stats.accuracy:.4f} | "
-                f"Precision: {train_stats.precision:.4f} | Recall: {train_stats.recall:.4f} | F1 Score: {train_stats.f1_score:.4f}"
+                f"Precision: {train_stats.precision:.4f} | Recall: {train_stats.recall:.4f}"
+                + f" | F1 Score: {train_stats.f1_score:.4f}"
             )
             logger.info(
                 f"[Val  ] Loss: {val_stats.loss:.4f} | Accuracy: {val_stats.accuracy:.4f} | "
-                f"Precision: {val_stats.precision:.4f} | Recall: {val_stats.recall:.4f} | F1 Score: {val_stats.f1_score:.4f}"
+                f"Precision: {val_stats.precision:.4f} | Recall: {val_stats.recall:.4f}"
+                + f" | F1 Score: {val_stats.f1_score:.4f}"
             )
 
         logger.info("Training completed.")
 
     def train_epoch(self, train_loader: DataLoader) -> TrainStats:
+        """Conducts one training epoch.
+
+        Args:
+            train_loader (DataLoader): DataLoader for the training set.
+
+        Returns:
+            TrainStats: A dataclass containing training metrics including accuracy, precision,
+            recall, F1 score, and loss for the epoch.
+        """
         # Training phase
         self.model.train()
         loss = 0
@@ -102,6 +139,15 @@ class Trainer:
         return TrainStats(accuracy, precision, recall, f1_scr, loss)
 
     def validate(self, val_loader: DataLoader) -> TrainStats:
+        """Evaluates the model on the validation set.
+
+        Args:
+            val_loader (DataLoader): DataLoader for the validation set.
+
+        Returns:
+            TrainStats: A dataclass containing validation metrics including accuracy, precision,
+            recall, F1 score, and loss for the epoch.
+        """
         self.model.eval()
         loss = 0
         val_preds, val_labels = [], []
