@@ -13,13 +13,13 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint
-        language: system
+        entry: "C:/Users/Adria.Portatil-Adria/AppData/Local/pypoetry/Cache/virtualenvs/mdsist-j1bbbV5p-py3.11/Scripts/pylint.exe"
         types: [python]
-        require_serial: true
+        language: python
+        additional_dependencies: [pylint]
         args:
           [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
+            "--max-locals=30"
           ]
+
 
