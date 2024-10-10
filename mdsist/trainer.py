@@ -29,7 +29,7 @@ class Trainer:
     def __init__(
         self,
         model: nn.Module,
-        optimizer: optim.Optimizer,
+        optimizer: optim.Optimizer | None = None,
         device: str | torch.device | None = None,
     ) -> None:
         self.model = model
