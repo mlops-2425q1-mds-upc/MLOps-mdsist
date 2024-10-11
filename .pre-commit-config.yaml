@@ -13,26 +13,21 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint
+        entry: poetry run pylint
         types: [python]
-        language: python
-        additional_dependencies: [pylint]
+        language: system
         require_serial: true
         args:
-          [
-            "--max-locals=30"
-          ]
+            - --max-locals=30
+            - --ignore-imports=yes
+          
       
       - id: pynblint
         name: pynblint
-        entry: pynblint
-        types: [python]
+        entry: python pynblint_pre_commit.py
+        types: [jupyter]
         language: python
-        additional_dependencies: [pylint]
+        additional_dependencies: [pynblint]
         require_serial: true
-        args:
-          [
-            "./"
-          ]
 
 

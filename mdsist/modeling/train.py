@@ -112,6 +112,7 @@ def main(
 
     # Instantiate model
     model = CNN()
+
     model.to(device)
 
     # Log model complexity (params and flops)
