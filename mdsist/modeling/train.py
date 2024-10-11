@@ -1,3 +1,40 @@
+"""
+Train a Convolutional Neural Network (CNN) model on a specified training dataset and 
+validate it using a validation dataset.
+
+This script utilizes the following libraries:
+- PyTorch for building and training the model
+- MLflow for tracking experiments and logging metrics
+- CodeCarbon for tracking carbon emissions during training
+- Typer for creating command-line interfaces
+- dotenv for loading environment variables
+- Loguru for logging
+
+Usage:
+    Run the script from the command line with the required parameters:
+    
+    python script_name.py --train-set-path <path_to_train_set> \
+                           --val-set-path <path_to_val_set> \
+                           --model-path <path_to_save_model> \
+                           [--device <device_name>]
+
+Parameters:
+    train_set_path (Path): Path to the training dataset.
+    val_set_path (Path): Path to the validation dataset.
+    model_path (Path): Path to save the trained model.
+    device (str | None): Optional; specify the device to train on (e.g., 'cuda' or 'cpu'). 
+    If not provided, the script will automatically choose the available device.
+
+The script loads parameters from a `params.yaml` configuration file and environment variables from 
+a `.env` file. It sets a random seed for reproducibility, normalizes the images,
+and creates DataLoaders for the training and validation datasets.
+
+The training process is managed by the `Trainer` class, which handles the training loop. 
+During training, the script tracks carbon emissions and logs various metrics, including the model's 
+hyperparameters and emissions, to MLflow. After training, the model is saved to the specified path.
+
+"""
+
 import os
 from pathlib import Path
 
@@ -5,17 +42,15 @@ import codecarbon as cc
 import mlflow
 import mlflow.pytorch
 import torch
-import torchvision.transforms as transforms
 import typer
+import yaml
 from dotenv import load_dotenv
 from loguru import logger
 from torch.utils.data import DataLoader
-import yaml
-import sys
+from torchvision import transforms
 
-import mdsist.util as util
+from mdsist import util
 from mdsist.architectures import CNN
-from mdsist.config import MODELS_DIR, PROCESSED_DATA_DIR
 from mdsist.dataset import MdsistDataset
 from mdsist.trainer import Trainer
 
@@ -29,14 +64,28 @@ def main(
     model_path: Path,
     device: str | None = None,
 ) -> None:
-    
-    params = yaml.safe_load(open("params.yaml"))["training"]
-    
+    """Train a CNN model on the provided training and validation datasets.
+
+    Args:
+        train_set_path (Path): Path to the training dataset.
+        val_set_path (Path): Path to the validation dataset.
+        model_path (Path): Path to save the trained model.
+        device (str | None): Optional; specify the device to use (e.g., 'cuda' or 'cpu').
+                             If None, automatically selects the available device.
+
+    This function loads training parameters from a YAML file, prepares the datasets and
+    data loaders, and then trains the CNN model while tracking emissions and logging
+    metrics with MLflow.
+    """
+
+    with open("params.yaml", encoding="utf-8") as param_file:
+        params = yaml.safe_load(param_file)["training"]
+
     experiment_id = params["experiment_id"]
-    seed = params['seed']
+    seed = params["seed"]
     epochs = params["epochs"]
     batch_size = params["batch_size"]
-    learning_rate = params['learning_rate']
+    learning_rate = params["learning_rate"]
 
     # Load environment variables
     load_dotenv()
@@ -63,6 +112,7 @@ def main(
 
     # Instantiate model
     model = CNN()
+
     model.to(device)
 
     # Log model complexity (params and flops)

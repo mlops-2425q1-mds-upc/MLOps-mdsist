@@ -1,3 +1,7 @@
+"""
+Configurtion file with global variables of the project
+"""
+
 from pathlib import Path
 
 from dotenv import load_dotenv
