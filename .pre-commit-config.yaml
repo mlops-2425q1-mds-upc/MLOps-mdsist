@@ -9,3 +9,25 @@ repos:
     hooks:
       - id: black
 
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: poetry run pylint
+        types: [python]
+        language: system
+        require_serial: true
+        args:
+            - --max-locals=30
+            - --ignore-imports=yes
+          
+      
+      - id: pynblint
+        name: pynblint
+        entry: python pynblint_pre_commit.py
+        types: [jupyter]
+        language: python
+        additional_dependencies: [pynblint]
+        require_serial: true
+
+
