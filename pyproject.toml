@@ -48,6 +48,7 @@ torch = { version = "2.4.1", source="torch"}
 torchvision = { version = "0.19.1", source="torch"}
 codecarbon = "^2.7.1"
 ptflops = "^0.7.4"
+deepchecks = {extras = ["vision"], version = "^0.18.1"}
 
 [[tool.poetry.source]]
 name = "torch"
