@@ -10,22 +10,25 @@ import pandas as pd
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision.transforms import Compose
+from typing import Union
 
 
 class MdsistDataset(Dataset):
     """Custom dataset class for loading images and labels from a parquet file."""
 
-    def __init__(self, file_path: Path, transform: Compose | None = None):
+    def __init__(self, file_path: Path, transform: Union[Compose, None] = None, return_dict: bool = False):
         """Initializes the dataset.
 
         Args:
             file_path (Path): Path to the parquet file containing the dataset.
             transform (Compose | None): Optional; a torchvision transform
             to be applied to the images.
+            return_dict (bool): If True, return a dictionary (for Deepchecks); if False, return a tuple.
         """
         self.data = pd.read_parquet(file_path, engine="pyarrow")
         self.data = self.data.reset_index(drop=True)
         self.transform = transform
+        self.return_dict = return_dict
 
     def decode_png_image(self, image_dict):
         """Decodes a PNG image from binary data.
@@ -65,17 +68,12 @@ class MdsistDataset(Dataset):
             idx (int): The index of the sample to retrieve.
 
         Returns:
-            tuple: A tuple containing:
-                - image (torch.Tensor): The transformed image tensor of shape (1, 28, 28).
-                - label (int): The label corresponding to the image.
+            dict or tuple: A dictionary (if return_dict=True) containing 'images' and 'labels',
+            or a tuple (if return_dict=False) containing (image, label).
         """
-        # Retrieve the image dictionary and label
         image_dict = self.data.loc[idx, "image"]
         label = self.data.loc[idx, "label"]
-
-        # Decode the PNG image
         image_array = self.decode_png_image(image_dict)
-
         image = image_array.reshape((1, 28, 28))
 
         if self.transform:
@@ -83,4 +81,8 @@ class MdsistDataset(Dataset):
 
         image = image.reshape(1, 28, 28)
 
-        return image, label
+        # Return a dictionary for Deepchecks, or a tuple for other uses
+        if self.return_dict:
+            return {'images': image, 'labels': label}
+        else:
+            return image, label

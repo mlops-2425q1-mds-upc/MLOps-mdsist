@@ -53,6 +53,7 @@ from mdsist import util
 from mdsist.architectures import CNN
 from mdsist.dataset import MdsistDataset
 from mdsist.trainer import Trainer
+from typing import Union
 
 app = typer.Typer()
 
@@ -62,7 +63,7 @@ def main(
     train_set_path: Path,
     val_set_path: Path,
     model_path: Path,
-    device: str | None = None,
+    device: Union[str, None] = None,
 ) -> None:
     """Train a CNN model on the provided training and validation datasets.
 
