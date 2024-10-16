@@ -1,11 +1,13 @@
-from mdsist.config import JPG_IMAGES_DIR, PROCESSED_DATA_DIR, REPORTS_DIR
-from mdsist.features.parser import ParquetJPGParser
 import os
-from deepchecks.vision import classification_dataset_from_directory, VisionData
+
+from deepchecks.vision import VisionData, classification_dataset_from_directory
 from deepchecks.vision.suites import data_integrity, train_test_validation
-from mdsist.dataset import MdsistDataset
 from torch.utils.data import DataLoader
 from torchvision import transforms
+
+from mdsist.config import JPG_IMAGES_DIR, PROCESSED_DATA_DIR, REPORTS_DIR
+from mdsist.dataset import MdsistDataset
+from mdsist.features.parser import ParquetJPGParser
 
 """
 Deepchecks Validation
@@ -27,19 +29,26 @@ if not os.path.isdir(JPG_IMAGES_DIR / 'test'):
 train_ds, test_ds = classification_dataset_from_directory(JPG_IMAGES_DIR, object_type="VisionData")
 """
 
-# Define the transformation to normalize images
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
-
 # Load datasets
-train_dataset = MdsistDataset(PROCESSED_DATA_DIR / "train.parquet", transform=transform, return_dict=True)
-test_dataset = MdsistDataset(PROCESSED_DATA_DIR / "test.parquet", transform=transform, return_dict = True)
+train_dataset = MdsistDataset(PROCESSED_DATA_DIR / "train.parquet", deepchecks_format=True)
+test_dataset = MdsistDataset(PROCESSED_DATA_DIR / "test.parquet", deepchecks_format=True)
 
 # Create DataLoaders
 train_loader = DataLoader(train_dataset, batch_size=64, shuffle=False)
 test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
-train_ds = VisionData(batch_loader=train_loader, task_type="classification", dataset_name="MDSIST", reshuffle_data=True)
-test_ds = VisionData(batch_loader=test_loader, task_type="classification", dataset_name="MDSIST", reshuffle_data=True)
+train_ds = VisionData(
+    batch_loader=train_loader,
+    task_type="classification",
+    dataset_name="MDSIST",
+    reshuffle_data=True,
+)
+test_ds = VisionData(
+    batch_loader=test_loader,
+    task_type="classification",
+    dataset_name="MDSIST",
+    reshuffle_data=True,
+)
 custom_suite = data_integrity()
 
 custom_suite.add(train_test_validation())
