@@ -1,32 +1,16 @@
 import os
 
-from deepchecks.vision import VisionData, classification_dataset_from_directory
-from deepchecks.vision.suites import data_integrity, train_test_validation
+from deepchecks.vision import VisionData
+from deepchecks.vision.suites import full_suite
 from torch.utils.data import DataLoader
-from torchvision import transforms
 
-from mdsist.config import JPG_IMAGES_DIR, PROCESSED_DATA_DIR, REPORTS_DIR
+from mdsist.config import PROCESSED_DATA_DIR, REPORTS_DIR
 from mdsist.dataset import MdsistDataset
-from mdsist.features.parser import ParquetJPGParser
 
 """
 Deepchecks Validation
 
-This script first parses (if needed) the processed data from parquet to jpg. Then, performs the validation of the data
-using Deepchecks.
-"""
-"""
-# check if train and test folders in images_jpg exist, if not, parse train and test processed parquet files to jpg images
-if not os.path.isdir(JPG_IMAGES_DIR / 'train'):
-    train_jpg = ParquetJPGParser(PROCESSED_DATA_DIR / "train.parquet", JPG_IMAGES_DIR / 'train')
-    train_jpg.save_images()
-
-if not os.path.isdir(JPG_IMAGES_DIR / 'test'):
-    test_jpg = ParquetJPGParser(PROCESSED_DATA_DIR / "test.parquet", JPG_IMAGES_DIR / 'test')
-    test_jpg.save_images()
-
-# deepchecks validation
-train_ds, test_ds = classification_dataset_from_directory(JPG_IMAGES_DIR, object_type="VisionData")
+This script first obtains the train and test datasets as DataLoader structures and then performs the Deepchecks validation.
 """
 
 # Load datasets
@@ -40,18 +24,27 @@ test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 train_ds = VisionData(
     batch_loader=train_loader,
     task_type="classification",
-    dataset_name="MDSIST",
+    dataset_name="MDSIST_train",
     reshuffle_data=True,
 )
 test_ds = VisionData(
     batch_loader=test_loader,
     task_type="classification",
-    dataset_name="MDSIST",
+    dataset_name="MDSIST_test",
     reshuffle_data=True,
 )
-custom_suite = data_integrity()
+custom_suite = full_suite()
 
-custom_suite.add(train_test_validation())
+# remove checks that do not apply to our dataset
+
+custom_suite.remove(0)
+custom_suite.remove(1)
+custom_suite.remove(2)
+custom_suite.remove(3)
+custom_suite.remove(4)
+custom_suite.remove(5)
+custom_suite.remove(6)
+custom_suite.remove(14)
 
 result = custom_suite.run(train_ds, test_ds)
 
