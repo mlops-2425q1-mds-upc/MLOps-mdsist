@@ -4,6 +4,7 @@ Custom dataset class for loading images and labels from a parquet file.
 
 import io
 from pathlib import Path
+from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -15,17 +16,24 @@ from torchvision.transforms import Compose
 class MdsistDataset(Dataset):
     """Custom dataset class for loading images and labels from a parquet file."""
 
-    def __init__(self, file_path: Path, transform: Compose | None = None):
+    def __init__(
+        self,
+        file_path: Path,
+        transform: Union[Compose, None] = None,
+        deepchecks_format: bool = False,
+    ):
         """Initializes the dataset.
 
         Args:
             file_path (Path): Path to the parquet file containing the dataset.
             transform (Compose | None): Optional; a torchvision transform
             to be applied to the images.
+            deepchecks_format (bool): If True, get the data formatted for deepchecks; if False, get a (image, label) tuple.
         """
         self.data = pd.read_parquet(file_path, engine="pyarrow")
         self.data = self.data.reset_index(drop=True)
         self.transform = transform
+        self.deepchecks_format = deepchecks_format
 
     def decode_png_image(self, image_dict):
         """Decodes a PNG image from binary data.
@@ -65,22 +73,21 @@ class MdsistDataset(Dataset):
             idx (int): The index of the sample to retrieve.
 
         Returns:
-            tuple: A tuple containing:
-                - image (torch.Tensor): The transformed image tensor of shape (1, 28, 28).
-                - label (int): The label corresponding to the image.
+            dict or tuple: A dictionary (if deepchecks_format=True) containing 'images' and 'labels',
+            or a tuple (if deepchecks_format=False) containing (image, label).
         """
-        # Retrieve the image dictionary and label
         image_dict = self.data.loc[idx, "image"]
         label = self.data.loc[idx, "label"]
-
-        # Decode the PNG image
         image_array = self.decode_png_image(image_dict)
-
-        image = image_array.reshape((1, 28, 28))
+        image = image_array.reshape(1, 28, 28)
 
         if self.transform:
             image = self.transform(image)
 
-        image = image.reshape(1, 28, 28)
+        # Deephecks requires a dictionary with channels last
+        if self.deepchecks_format:
+            image = image.reshape(28, 28, 1)
+            return {"images": image, "labels": label}
 
+        image = image_array.reshape(1, 28, 28)
         return image, label
