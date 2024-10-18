@@ -13,6 +13,7 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 
 from mdsist import util
+from typing import Union
 
 
 @dataclass
@@ -43,7 +44,7 @@ class Trainer:
         self,
         model: nn.Module,
         optimizer: optim.Optimizer,
-        device: str | torch.device | None = None,
+        device: Union[str, torch.device, None] = None,
     ) -> None:
         """Initializes the Trainer.
 
