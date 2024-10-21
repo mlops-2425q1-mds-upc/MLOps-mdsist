@@ -1,4 +1,9 @@
-import os
+"""
+Deepchecks Validation
+
+This script first obtains the train and test datasets as DataLoader structures 
+and then performs the Deepchecks validation.
+"""
 
 from deepchecks.vision import VisionData
 from deepchecks.vision.suites import full_suite
@@ -6,12 +11,6 @@ from torch.utils.data import DataLoader
 
 from mdsist.config import PROCESSED_DATA_DIR, REPORTS_DIR
 from mdsist.dataset import MdsistDataset
-
-"""
-Deepchecks Validation
-
-This script first obtains the train and test datasets as DataLoader structures and then performs the Deepchecks validation.
-"""
 
 # Load datasets
 train_dataset = MdsistDataset(PROCESSED_DATA_DIR / "train.parquet", deepchecks_format=True)

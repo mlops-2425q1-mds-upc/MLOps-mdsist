@@ -28,7 +28,8 @@ class MdsistDataset(Dataset):
             file_path (Path): Path to the parquet file containing the dataset.
             transform (Compose | None): Optional; a torchvision transform
             to be applied to the images.
-            deepchecks_format (bool): If True, get the data formatted for deepchecks; if False, get a (image, label) tuple.
+            deepchecks_format (bool): If True, get the data formatted for deepchecks;
+            if False, get a (image, label) tuple.
         """
         self.data = pd.read_parquet(file_path, engine="pyarrow")
         self.data = self.data.reset_index(drop=True)
@@ -73,13 +74,13 @@ class MdsistDataset(Dataset):
             idx (int): The index of the sample to retrieve.
 
         Returns:
-            dict or tuple: A dictionary (if deepchecks_format=True) containing 'images' and 'labels',
+            dict or tuple: A dictionary (if deepchecks_format=True) containing images and labels,
             or a tuple (if deepchecks_format=False) containing (image, label).
         """
         image_dict = self.data.loc[idx, "image"]
         label = self.data.loc[idx, "label"]
         image_array = self.decode_png_image(image_dict)
-        image = image_array.reshape(1, 28, 28)
+        image = image_array.reshape((1, 28, 28))
 
         if self.transform:
             image = self.transform(image)
@@ -89,5 +90,5 @@ class MdsistDataset(Dataset):
             image = image.reshape(28, 28, 1)
             return {"images": image, "labels": label}
 
-        image = image_array.reshape(1, 28, 28)
+        image = image_array.reshape((1, 28, 28))
         return image, label
