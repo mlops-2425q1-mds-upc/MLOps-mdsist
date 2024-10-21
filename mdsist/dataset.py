@@ -90,5 +90,5 @@ class MdsistDataset(Dataset):
             image = image.reshape(28, 28, 1)
             return {"images": image, "labels": label}
 
-        image = image_array.reshape((1, 28, 28))
+        image = image.reshape((1, 28, 28))
         return image, label
