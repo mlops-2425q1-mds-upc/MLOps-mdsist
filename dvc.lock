@@ -68,7 +68,7 @@ stages:
       params.yaml:
         training.batch_size: 64
         training.epochs: 5
-        training.experiment_id: pipelineTesting6
+        training.experiment_id: pipelineTesting8
         training.learning_rate: 0.001
         training.seed: 42
     outs:
@@ -76,3 +76,30 @@ stages:
       hash: md5
       md5: faf351d0b17cfde2f80220783f41e654
       size: 832552
+  test:
+    cmd: python mdsist/modeling/test.py data/processed/test.parquet
+    deps:
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: 173a1e6203bbd37f447207b7bca03397
+      size: 2468923
+    - path: mdsist/dataset.py
+      hash: md5
+      md5: 619572fb810178a47b7f460f70e075f5
+      size: 2968
+    - path: mdsist/modeling/test.py
+      hash: md5
+      md5: fc8a97bf048150fd93df8103420a8895
+      size: 3972
+    - path: mdsist/trainer.py
+      hash: md5
+      md5: 4593e5c04e2237050e562f47f28d7fb0
+      size: 6273
+    - path: mdsist/util.py
+      hash: md5
+      md5: aa38863f562145b216ec3f3acdcb7037
+      size: 1777
+    params:
+      params.yaml:
+        testing.batch_size: 64
+        testing.experiment_id: pipelineTesting8
