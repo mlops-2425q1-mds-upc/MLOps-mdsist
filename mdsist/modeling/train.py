@@ -37,6 +37,7 @@ hyperparameters and emissions, to MLflow. After training, the model is saved to 
 
 import os
 from pathlib import Path
+from typing import Union
 
 import codecarbon as cc
 import mlflow
@@ -53,7 +54,6 @@ from mdsist import util
 from mdsist.architectures import CNN
 from mdsist.dataset import MdsistDataset
 from mdsist.trainer import Trainer
-from typing import Union
 
 app = typer.Typer()
 
