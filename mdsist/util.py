@@ -1,3 +1,5 @@
+""" Useful functions of short length that can be used everywhere"""
+
 import datetime as dt
 import random
 
@@ -7,7 +9,7 @@ import torch
 from loguru import logger
 
 
-def get_current_YYYYmmDDhhmmss() -> str:
+def get_current_timestamp_formatted() -> str:
     """
     Get the current timestamp in YYYYmmDDhhmmss format
 
