@@ -3,6 +3,7 @@ Trainer classes for handling model training and validation.
 """
 
 from dataclasses import dataclass
+from typing import Union
 
 import mlflow
 import torch
@@ -42,8 +43,8 @@ class Trainer:
     def __init__(
         self,
         model: nn.Module,
-        optimizer: optim.Optimizer | None = None,
-        device: str | torch.device | None = None,
+        optimizer: Union[optim.Optimizer, None] = None,
+        device: Union[str, torch.device, None] = None,
     ) -> None:
         """Initializes the Trainer.
 

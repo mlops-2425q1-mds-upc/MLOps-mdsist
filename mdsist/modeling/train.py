@@ -37,6 +37,7 @@ hyperparameters and emissions, to MLflow. After training, the model is saved to 
 
 import os
 from pathlib import Path
+from typing import Union
 
 import codecarbon as cc
 import mlflow
@@ -62,7 +63,7 @@ def main(
     train_set_path: Path,
     val_set_path: Path,
     model_path: Path,
-    device: str | None = None,
+    device: Union[str, None] = None,
 ) -> None:
     """Train a CNN model on the provided training and validation datasets.
 
