@@ -35,3 +35,15 @@ stages:
     - training.experiment_id
     outs:
     - models/model.pt
+
+  test:
+    cmd: python mdsist/modeling/test.py data/processed/test.parquet
+    deps:
+    - data/processed/test.parquet
+    - mdsist/dataset.py
+    - mdsist/trainer.py
+    - mdsist/util.py
+    - mdsist/modeling/test.py
+    params:
+    - testing.batch_size
+    - testing.experiment_id

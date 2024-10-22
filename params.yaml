@@ -4,8 +4,12 @@ preprocessing:
   validation_split: 0.15
 
 training:
-  experiment_id: pipelineTesting2
+  experiment_id: pipelineTesting8
   seed:  42
   epochs: 5
   batch_size: 64
   learning_rate: 0.001
+
+testing:
+  experiment_id: pipelineTesting8
+  batch_size: 64

@@ -2,6 +2,7 @@
 Preprocessing of the data obtained from HuggingFace
 """
 
+import os
 from pathlib import Path
 
 import numpy as np
@@ -62,7 +63,12 @@ def main(
     # Reset the index of the splits
     train = train.reset_index(drop=True)
     validation = validation.reset_index(drop=True)
-    test = test.reset_index(drop=True)
+    test = test[0].reset_index(drop=True)
+
+    # Ensure output folders exist
+    os.makedirs(processed_train_split.parent, exist_ok=True)
+    os.makedirs(processed_validation_split.parent, exist_ok=True)
+    os.makedirs(processed_test_split.parent, exist_ok=True)
 
     # Save the processed datasets to parquet files
     pq.write_table(pa.Table.from_pandas(train), processed_train_split)

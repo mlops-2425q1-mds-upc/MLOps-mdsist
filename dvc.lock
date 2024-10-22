@@ -15,8 +15,8 @@ stages:
       size: 15561616
     - path: ./mdsist/preprocessing.py
       hash: md5
-      md5: 74de92451e21824d3b20f58fa2dfcd42
-      size: 1450
+      md5: a567415c8ad75ab63ae6594a9aefa827
+      size: 2600
     params:
       params.yaml:
         preprocessing.random_state: 42
@@ -25,13 +25,81 @@ stages:
     outs:
     - path: ./data/processed/test.parquet
       hash: md5
-      md5: f780b1028628cda7d3965bd2517530b1
+      md5: 173a1e6203bbd37f447207b7bca03397
       size: 2468923
     - path: ./data/processed/train.parquet
       hash: md5
-      md5: 1038d1362c15e84b966de5f9d92f7a69
+      md5: 18d0d44209ff4478668fe9944499afe2
       size: 11508894
     - path: ./data/processed/validation.parquet
       hash: md5
-      md5: 1db4502ac1a926661a09bf0c58c23144
+      md5: 213d333f5350a8ea8a247bab74fe38a0
       size: 2480735
+  train:
+    cmd: python mdsist/modeling/train.py data/processed/train.parquet data/processed/validation.parquet
+      models/model.pt
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: b64135c6bb44ae5ee59d45c9f8ff4d10.dir
+      size: 16458552
+      nfiles: 3
+    - path: mdsist/architectures.py
+      hash: md5
+      md5: a79126c2621dd531ee80325699225c8d
+      size: 1763
+    - path: mdsist/dataset.py
+      hash: md5
+      md5: 619572fb810178a47b7f460f70e075f5
+      size: 2968
+    - path: mdsist/modeling/train.py
+      hash: md5
+      md5: 3f5f7012e202f84c1fa171548d967de8
+      size: 5464
+    - path: mdsist/trainer.py
+      hash: md5
+      md5: 4593e5c04e2237050e562f47f28d7fb0
+      size: 6273
+    - path: mdsist/util.py
+      hash: md5
+      md5: aa38863f562145b216ec3f3acdcb7037
+      size: 1777
+    params:
+      params.yaml:
+        training.batch_size: 64
+        training.epochs: 5
+        training.experiment_id: pipelineTesting8
+        training.learning_rate: 0.001
+        training.seed: 42
+    outs:
+    - path: models/model.pt
+      hash: md5
+      md5: faf351d0b17cfde2f80220783f41e654
+      size: 832552
+  test:
+    cmd: python mdsist/modeling/test.py data/processed/test.parquet
+    deps:
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: 173a1e6203bbd37f447207b7bca03397
+      size: 2468923
+    - path: mdsist/dataset.py
+      hash: md5
+      md5: 619572fb810178a47b7f460f70e075f5
+      size: 2968
+    - path: mdsist/modeling/test.py
+      hash: md5
+      md5: fc8a97bf048150fd93df8103420a8895
+      size: 3972
+    - path: mdsist/trainer.py
+      hash: md5
+      md5: 4593e5c04e2237050e562f47f28d7fb0
+      size: 6273
+    - path: mdsist/util.py
+      hash: md5
+      md5: aa38863f562145b216ec3f3acdcb7037
+      size: 1777
+    params:
+      params.yaml:
+        testing.batch_size: 64
+        testing.experiment_id: pipelineTesting8
