@@ -43,7 +43,7 @@ class Trainer:
     def __init__(
         self,
         model: nn.Module,
-        optimizer: optim.Optimizer,
+        optimizer: Union[optim.Optimizer, None] = None,
         device: Union[str, torch.device, None] = None,
     ) -> None:
         """Initializes the Trainer.
