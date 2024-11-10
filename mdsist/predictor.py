@@ -2,22 +2,16 @@
 Trainer classes for handling model training and validation.
 """
 
-from dataclasses import dataclass
 from typing import Union
 
-import mlflow
 import torch
-import tqdm
-from loguru import logger
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
-from torch import nn, optim
-from torch.utils.data import DataLoader
+from torch import nn
 
 from mdsist import util
 
+
 class Predictor:
-    """
-    """
+    """Predictor class"""
 
     def __init__(
         self,
@@ -36,22 +30,25 @@ class Predictor:
         if self.device is None:
             self.device = util.get_available_device()
 
-# Define ValueLoader so it take the input image, convert it into 28x28 matrix, in uint8
+    def get_model(self):
+        """Get predictor model"""
+        return self.model
+
+    # Define ValueLoader so it take the input image, convert it into 28x28 matrix, in uint8
 
     def predict(self, images):
         """
         Args:
 
         Returns:
-            
+
         """
         self.model.eval()
         val_preds = []
-        with torch.no_grad():# no recalcula el model 
+        with torch.no_grad():  # no recalcula el model
             for image in images:
                 image = image.to(self.device)
-                #labels = labels.to(self.device)
-                outputs = self.model(image)  # input as numpy 28x28 matrix. uint8
+                outputs = self.model(image.float().clone())  # input as numpy 28x28 matrix. uint8
                 preds = outputs.argmax(dim=1).cpu().numpy()
                 val_preds.extend(preds)
-                return preds
+            return val_preds

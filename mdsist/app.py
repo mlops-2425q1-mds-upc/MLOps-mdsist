@@ -4,6 +4,7 @@ api module
 
 import mlflow
 import numpy as np
+import torch
 from dotenv import load_dotenv
 from fastapi import Body, FastAPI
 
@@ -34,25 +35,23 @@ async def test():
     return "It works"
 
 
-@app.post("/mnist-model-prediction/")
-async def predict(data: bytes = Body()):
+@app.post("/mnist-model-prediction")
+async def predict(data: bytes = Body(...)):
     """
     predicts from image
     """
 
     # pass the image as byte, then from buffer.
 
-    image_array = np.frombuffer(
-        data, dtype=np.uint8
-    )  # this method interprets a buffer as a 1D array.
+    data_array = bytearray(data)
+
+    image_array = torch.tensor(data_array, dtype=torch.uint8)
 
     # reshape uint8 to below structure
     # shape (N, 1, H, W) # N = degree of freedom, -1.  H = 28, W = 28
-    print(image_array)
-    print(np.shape(image_array))
     images = image_array.reshape((-1, 1, 28, 28))
+    print(np.shape(images))
 
     prediction = pred.predict(images)
-
     print(prediction)
-    # return{"prediction": int(prediction[0])}
+    return {"prediction": [int(i) for i in prediction]}
