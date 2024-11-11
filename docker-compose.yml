@@ -1,0 +1,9 @@
+services:
+  api:
+    build: .
+    container_name: mdsist_api
+    ports:
+      - 80:80
+    restart: always
+    env_file: ".env"
+
