@@ -7,6 +7,8 @@ import numpy as np
 import torch
 from dotenv import load_dotenv
 from fastapi import Body, FastAPI
+from torchinfo import ModelStatistics, summary
+from torchinfo.layer_info import LayerInfo
 
 from mdsist import util
 from mdsist.predictor import Predictor
@@ -33,6 +35,45 @@ async def test():
     test function
     """
     return "It works"
+
+
+@app.get("/info")
+async def model_info():
+    """
+    return info about the model
+    """
+    info: ModelStatistics = summary(model, verbose=0)
+    layers: list[LayerInfo] = info.summary_list
+
+    desc = (
+        "The primary intended use of this model is to classify"
+        "images of handwritten digits from the MNIST dataset"
+        "into one of ten categories (0-9). It was specifically "
+        "designed for image classification tasks without"
+        "requiring additional fine-tuning or integration into larger applications. "
+        "This model is ideal for educational, research, and benchmarking purposes within "
+        "the field of machine learning, "
+        "particularly in the area of digit recognition."
+    )
+
+    short = (
+        "This is a Convolutional Neural Network (CNN) model to classify grayscale images "
+        "from the MNIST dataset."
+    )
+
+    return {
+        "Name": "MDSIST-CNN",
+        "Short Description": short,
+        "Description": desc,
+        "Layers": {
+            layers[0].get_layer_name(True, True): [
+                layer.get_layer_name(True, True) for layer in layers[1:]
+            ]
+        },
+        "Total parameters": info.total_params,
+        "Trainable params": info.trainable_params,
+        "Total param bytes": info.total_param_bytes,
+    }
 
 
 @app.post("/mnist-model-prediction")
