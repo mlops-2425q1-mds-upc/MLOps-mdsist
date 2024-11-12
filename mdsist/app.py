@@ -2,6 +2,8 @@
 api module
 """
 
+from http import HTTPStatus
+
 import mlflow
 import numpy as np
 import torch
@@ -29,12 +31,16 @@ model = mlflow.pytorch.load_model(MODEL_URI, map_location=device)
 pred = Predictor(model)
 
 
-@app.get("/test")
+@app.get("/")
 async def test():
     """
     test function
     """
-    return "It works"
+    return {
+        "message": HTTPStatus.OK.phrase,
+        "status-code": HTTPStatus.OK,
+        "data": {"message": "Welcome. See /docs for more information about the api"},
+    }
 
 
 @app.get("/info")
@@ -62,17 +68,21 @@ async def model_info():
     )
 
     return {
-        "Name": "MDSIST-CNN",
-        "Short Description": short,
-        "Description": desc,
-        "Layers": {
-            layers[0].get_layer_name(True, True): [
-                layer.get_layer_name(True, True) for layer in layers[1:]
-            ]
+        "message": HTTPStatus.OK.phrase,
+        "status-code": HTTPStatus.OK,
+        "data": {
+            "Name": "MDSIST-CNN",
+            "Short Description": short,
+            "Description": desc,
+            "Layers": {
+                layers[0].get_layer_name(True, True): [
+                    layer.get_layer_name(True, True) for layer in layers[1:]
+                ]
+            },
+            "Total parameters": info.total_params,
+            "Trainable params": info.trainable_params,
+            "Total param bytes": info.total_param_bytes,
         },
-        "Total parameters": info.total_params,
-        "Trainable params": info.trainable_params,
-        "Total param bytes": info.total_param_bytes,
     }
 
 
@@ -95,4 +105,8 @@ async def predict(data: bytes = Body(...)):
 
     prediction = pred.predict(images)
     print(prediction)
-    return {"prediction": [int(i) for i in prediction]}
+    return {
+        "message": HTTPStatus.OK.phrase,
+        "status-code": HTTPStatus.OK,
+        "data": {"prediction": [int(i) for i in prediction]},
+    }
