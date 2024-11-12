@@ -20,6 +20,7 @@ repos:
         args:
             - --max-locals=30
             - --ignore-imports=yes
+            - --ignore-redefined-outer-name=yes
           
       
       - id: pynblint
