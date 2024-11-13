@@ -5,7 +5,7 @@ The aim of the project is to implement a CNN  model for image classification on 
 ## Project Setup
 
 ### Prerequisites
-* Python 3.11 or higher
+* Python 3.9
 * Poetry Python package
 
 ### Steps
@@ -23,6 +23,18 @@ poetry install
 ```shell
 dvc repro
 ```
+
+## How to run the tests
+
+1. Locate yourself in the root directory
+
+2. Run `coverage run -m pytest`. This will execute all the test files of the project
+
+3. Execute `coverage report` or `coverage html` in order to visually see the results. The latest generates a folder called `htmlcov`. From this folder, `index.html` is the file that contains the results. 
+    - In order to see its content, either:
+        - Run `open htmlcov/index.html`
+        - Manually right click on the file, select `Reveal in File Explorer` and double click the file from the File Explorer
+        - If you are using Linux, run `xdg-open htmlcov/index.html`
 
 ## Project Organization
 
@@ -47,6 +59,8 @@ dvc repro
 │   ├── 1.0-ji-raw-data-visualization
 │   ├── 2.0-ji-raw-data-split
 │   ├── 3.0-icc-train
+│   ├── 4.0-icc-test
+│   ├── 5.0-aag-ji-app
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
 │                         mdsist and configuration for tools like black
@@ -58,25 +72,59 @@ dvc repro
 │   ├── model_card
 │
 └── mdsist   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes mdsist a Python module
-    │
-    ├── architectures.py        <- Defines a CNN model for image classification in PyTorch
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── preprocessing.py        <- Splits raw train and test data into processed train, validation, and test datasets.
-    │
-    ├── trainer.py              <- Trains and validates a model while logging metrics using MLflow.
-    │
-    ├── util.py                 <- Provides utility functions
-    │
-    ├── modeling                
-        ├── __init__.py 
-        ├── predict.py          <- Code to run model inference with trained models          
-        └── train.py            <- Code to train models
+│   │
+│   ├── __init__.py             <- Makes mdsist a Python module
+│   │
+│   ├── app.py             
+│   │
+│   ├── architectures.py        <- Defines a CNN model for image classification in PyTorch
+│   │
+│   ├── config.py               <- Store useful variables and configuration
+│   │
+│   ├── dataset.py              <- Scripts to download or generate data
+│   │
+│   ├── predictor.py             
+│   │
+│   ├── preprocessing.py        <- Splits raw train and test data into processed train, validation, and test datasets.
+│   │
+│   ├── trainer.py              <- Trains and validates a model while logging metrics using MLflow.
+│   │
+│   ├── util.py                 <- Provides utility functions
+│   │
+│   ├── modeling
+│   │   │             
+│   │   ├── __init__.py 
+│   │   ├── test.py               
+│   │   └── train.py     
+│   │
+│   ├── features
+│   │   │                
+│       ├── deepchecks_validation.py
+│
+├── reports  
+│   │
+│   ├── deepchecks_validation.html
+│
+├── tests  
+│   │
+│   ├── mdsist
+│   │   │             
+│   │   ├── test_api.py
+│   │   ├── test_architectures.py
+│   │   ├── test_config.py
+│   │   ├── test_preprocessing.py
+│   │   ├── test_trainer.py
+│   │   ├── test_util.py
+│ 
+├── docker-compose.yml
+│
+├── Dockerfile
+│
+├── params.yaml
+│
+├── dvc.yaml
+│
+├── pynblint_pre_commit.py
 ```
 
 --------
