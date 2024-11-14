@@ -87,7 +87,7 @@ async def model_info():
 
 
 @app.post("/mnist-model-prediction")
-async def predict(data: bytes = Body(...)):
+async def predict(data: bytes = Body(media_type="application/octet-stream")):
     """
     predicts from image
     """
