@@ -23,14 +23,13 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction --no-root --no-cache
-          poetry shell
 
       - name: MLFlow credentials
         run: |
-          dvc remote add origin https://dagshub.com/Zhengyong8119/MLOps-mdsist.dvc
-          dvc remote modify origin --local auth basic
-          dvc remote modify origin --local user ${{ secrets.DVC_USERNAME }}
-          dvc remote modify origin --local password ${{ secrets.DVC_PASSWORD }}
+          poetry run dvc remote add origin https://dagshub.com/Zhengyong8119/MLOps-mdsist.dvc
+          poetry run dvc remote modify origin --local auth basic
+          poetry run dvc remote modify origin --local user ${{ secrets.DVC_USERNAME }}
+          poetry run dvc remote modify origin --local password ${{ secrets.DVC_PASSWORD }}
 
       - name: Run tests
         run: |
