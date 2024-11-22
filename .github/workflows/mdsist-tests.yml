@@ -26,7 +26,6 @@ jobs:
 
       - name: MLFlow credentials
         run: |
-          poetry run dvc remote add origin https://dagshub.com/Zhengyong8119/MLOps-mdsist.dvc
           poetry run dvc remote modify origin --local auth basic
           poetry run dvc remote modify origin --local user ${{ secrets.DVC_USERNAME }}
           poetry run dvc remote modify origin --local password ${{ secrets.DVC_PASSWORD }}
