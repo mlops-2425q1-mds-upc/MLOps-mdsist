@@ -37,7 +37,7 @@ jobs:
           poetry run coverage run -m pytest
     
   discord-notification:
-    needs: tf-test
+    needs: ci
     if: ${{ failure() && github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     steps:
