@@ -23,6 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction --no-root --no-cache
+          poetry shell
 
       - name: MLFlow credentials
         run: |
