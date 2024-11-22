@@ -3,7 +3,7 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: "13 23 * * *"
+    - cron: "0 0 * * *"
 
 jobs:
   ci:
