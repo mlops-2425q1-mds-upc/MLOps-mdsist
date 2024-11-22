@@ -7,23 +7,23 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
-  steps:
-    - uses: actions/checkout@v1
+    steps:
+      - uses: actions/checkout@v1
 
-    - uses: actions/setup-python@v4
-      with: 
-        python-version: 3.9
+      - uses: actions/setup-python@v4
+        with: 
+          python-version: 3.9
 
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo "export PATH=$HOME/.local/bin:$PATH" >> $GITHUB_ENV
-      shell: bash
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "export PATH=$HOME/.local/bin:$PATH" >> $GITHUB_ENV
+        shell: bash
 
-    - name: Install dependencies
-      run: |
-        poetry install --no-interaction --no-root --no-cache
+      - name: Install dependencies
+        run: |
+          poetry install --no-interaction --no-root --no-cache
 
-    - name: Run tests
-      run: |
-        poetry run coverage run -m pytest
+      - name: Run tests
+        run: |
+          poetry run coverage run -m pytest
