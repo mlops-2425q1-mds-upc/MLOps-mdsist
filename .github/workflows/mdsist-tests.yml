@@ -3,7 +3,7 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: "55 22 * * *"
+    - cron: "13 23 * * *"
 
 jobs:
   ci:
@@ -46,24 +46,5 @@ jobs:
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d '{
-              "content": "@here :red_circle: MDSIST Test failed",
-              "embeds": [
-                {
-                  "title": "MDSIST Test Failure",
-                  "description": "The test failed on the scheduled run.",
-                  "color": 15158332,
-                  "fields": [
-                    {
-                      "name": "Repository",
-                      "value": "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})"
-                    },
-                    {
-                      "name": "Action Run",
-                      "value": "[View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-                    }
-                  ]
-                }
-              ]
-            }' \
+            -d '{"content": "MDSIST Test failed. View details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
