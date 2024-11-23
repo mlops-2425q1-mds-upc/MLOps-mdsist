@@ -41,6 +41,10 @@ jobs:
       - name: Run tests
         run: |
           poetry run coverage run -m pytest
+
+      - name: Pre-commit
+        run: |
+          poetry run pre-commit run --all-files
     
   discord-notification:
     needs: ci
