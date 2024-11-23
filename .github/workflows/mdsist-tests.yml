@@ -38,7 +38,7 @@ jobs:
     
   discord-notification:
     needs: ci
-    if: ${{ failure() && github.event_name == 'pull_request' }}
+    if: ${{ failure() && github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     steps:
       - name: Send Discord notification
