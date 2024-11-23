@@ -38,7 +38,7 @@ jobs:
     
   discord-notification:
     needs: ci
-    if: ${{ failure() && github.event_name == 'schedule' }}
+    if: ${{ failure() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - name: Send Discord notification
@@ -46,5 +46,24 @@ jobs:
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d '{"content": "MDSIST Test failed. View details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' \
+            -d '{
+              "content": "@here :red_circle: MDSIST Test failed on scheduled run",
+              "embeds": [
+                {
+                  "title": "MDSIST Test Failure",
+                  "description": "The scheduled test run encountered a failure. Click below for details.",
+                  "color": 15158332,
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})"
+                    },
+                    {
+                      "name": "Action Run",
+                      "value": "[View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+                    }
+                  ]
+                }
+              ]
+            }' \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
