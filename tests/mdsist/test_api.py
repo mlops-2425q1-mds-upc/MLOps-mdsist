@@ -56,7 +56,7 @@ def test_root(client):
 
 def test_get_info(client):
     """Testing of the info endpoint"""
-
+    # pylint: disable=R0801
     desc = (
         "The primary intended use of this model is to classify"
         "images of handwritten digits from the MNIST dataset"
@@ -72,6 +72,7 @@ def test_get_info(client):
         "This is a Convolutional Neural Network (CNN) model to classify grayscale images "
         "from the MNIST dataset."
     )
+    # pylint: enable=R0801
 
     response = client.get("/info")
     json = response.json()
