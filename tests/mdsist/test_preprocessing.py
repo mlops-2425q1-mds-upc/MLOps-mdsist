@@ -1,3 +1,7 @@
+"""
+Tests for the preprocessing module in the mdsist project.
+"""
+
 import os
 import tempfile
 from pathlib import Path
@@ -65,7 +69,7 @@ def setup_environment(sample_data):
                 "random_state": 42,
             }
         }
-        with open(params_path, "w") as param_file:
+        with open(params_path, "w", encoding="UTF-8") as param_file:
             yaml.safe_dump(mock_params, param_file)
 
     yield (
@@ -97,14 +101,16 @@ def test_data_preprocessing(setup_environment):
         params_path,
     ) = setup_environment
 
+    def custom_open(file, *args, **kwargs):
+        """Custom open function to handle params.yaml."""
+        encoding = kwargs.pop("encoding", "UTF-8")  # Ensure encoding is specified
+        if file == "params.yaml":
+            return open(params_path, *args, encoding=encoding, **kwargs)
+        return open(file, *args, encoding=encoding, **kwargs)
+
     # Patch to replace the location of params.yaml in the main function
-    with patch(
-        "mdsist.preprocessing.open",
-        lambda f, *args, **kwargs: (
-            open(params_path, *args, **kwargs) if f == "params.yaml" else open(f, *args, **kwargs)
-        ),
-    ):
-        from mdsist.preprocessing import main
+    with patch("mdsist.preprocessing.open", custom_open):
+        from mdsist.preprocessing import main  # pylint: disable=C0415
 
         main(
             Path(train_path),
@@ -134,8 +140,11 @@ def test_data_preprocessing(setup_environment):
 
 
 def test_main_with_invalid_data(setup_environment):
+    """
+    Test the main function with invalid input data to ensure error handling.
+    """
     (
-        train_path,
+        _,
         test_path,
         processed_train_path,
         processed_validation_path,
@@ -143,16 +152,18 @@ def test_main_with_invalid_data(setup_environment):
         params_path,
     ) = setup_environment
 
+    def custom_open(file, *args, **kwargs):
+        """Custom open function to handle params.yaml."""
+        encoding = kwargs.pop("encoding", "UTF-8")  # Ensure encoding is specified
+        if file == "params.yaml":
+            return open(params_path, *args, encoding=encoding, **kwargs)
+        return open(file, *args, encoding=encoding, **kwargs)
+
     # Patch to replace the location of params.yaml in the main function
-    with patch(
-        "mdsist.preprocessing.open",
-        lambda f, *args, **kwargs: (
-            open(params_path, *args, **kwargs) if f == "params.yaml" else open(f, *args, **kwargs)
-        ),
-    ):
+    with patch("mdsist.preprocessing.open", custom_open):
         # Provide invalid input to test error handling
         invalid_train_path = "invalid/path/to/train"
-        from mdsist.preprocessing import main
+        from mdsist.preprocessing import main  # pylint: disable=C0415
 
         with pytest.raises(FileNotFoundError):
             main(
