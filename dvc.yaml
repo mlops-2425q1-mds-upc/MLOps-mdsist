@@ -33,8 +33,6 @@ stages:
     - training.learning_rate
     - training.seed
     - training.experiment_id
-    outs:
-    - models/model.pt
 
   test:
     cmd: python mdsist/modeling/test.py data/processed/test.parquet
