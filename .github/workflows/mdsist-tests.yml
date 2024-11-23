@@ -51,7 +51,7 @@ jobs:
               "embeds": [
                 {
                   "title": "MDSIST Test Failure",
-                  "description": "The scheduled test run encountered a failure. Click below for details.",
+                  "description": "The MDSIST scheduled test run failed. Click below for details.",
                   "color": 15158332,
                   "fields": [
                     {
