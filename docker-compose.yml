@@ -1,9 +1,10 @@
 services:
   api:
-    build: .
+    image: mdsist123/mdsist:latest
     container_name: mdsist_api
     ports:
       - 80:80
     restart: always
+    pull_policy: always
     env_file: ".env"
 
