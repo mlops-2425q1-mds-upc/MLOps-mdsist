@@ -1,6 +1,5 @@
 name: MDSIST Tests
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -47,7 +46,7 @@ jobs:
         run: |
           poetry run pre-commit run --all-files
 
-    
+
   cd: 
     runs-on: ubuntu-latest
     needs: ci
