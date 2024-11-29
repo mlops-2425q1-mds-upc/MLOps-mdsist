@@ -2,15 +2,18 @@
 api module
 """
 
+import io
 from http import HTTPStatus
 
 import mlflow
 import numpy as np
-import torch
 from dotenv import load_dotenv
-from fastapi import Body, FastAPI
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
+from torch import Tensor
 from torchinfo import ModelStatistics, summary
 from torchinfo.layer_info import LayerInfo
+from torchvision import transforms
 
 from mdsist import util
 from mdsist.predictor import Predictor
@@ -32,9 +35,9 @@ pred = Predictor(model)
 
 
 @app.get("/")
-async def test():
+async def root():
     """
-    test function
+    Gives information where to find documentation
     """
     return {
         "message": HTTPStatus.OK.phrase,
@@ -52,10 +55,10 @@ async def model_info():
     layers: list[LayerInfo] = info.summary_list
 
     desc = (
-        "The primary intended use of this model is to classify"
-        "images of handwritten digits from the MNIST dataset"
+        "The primary intended use of this model is to classify "
+        "images of handwritten digits from the MNIST dataset "
         "into one of ten categories (0-9). It was specifically "
-        "designed for image classification tasks without"
+        "designed for image classification tasks without "
         "requiring additional fine-tuning or integration into larger applications. "
         "This model is ideal for educational, research, and benchmarking purposes within "
         "the field of machine learning, "
@@ -87,24 +90,34 @@ async def model_info():
 
 
 @app.post("/mnist-model-prediction")
-async def predict(data: bytes = Body(media_type="application/octet-stream")):
+async def predict(files: list[UploadFile] = File(...)):
     """
-    predicts from image
+    predicts from png image
     """
+    print(format)
 
-    # pass the image as byte, then from buffer.
+    def png_to_bytearray(pngimage):
+        # Create a BytesIO object from the binary data
+        image_stream = io.BytesIO(pngimage)
 
-    data_array = bytearray(data)
+        # Open the image using Pillow
+        with Image.open(image_stream) as img:
+            img = img.convert("L")
+            # Convert the image to a NumPy array
+            return np.array(img)
 
-    image_array = torch.tensor(data_array, dtype=torch.uint8)
+    image_array = [png_to_bytearray(await file.read()) for file in files]
 
-    # reshape uint8 to below structure
-    # shape (N, 1, H, W) # N = degree of freedom, -1.  H = 28, W = 28
-    images = image_array.reshape((-1, 1, 28, 28))
-    print(np.shape(images))
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-    prediction = pred.predict(images)
-    print(prediction)
+    imgs_tensor = []
+    for img in image_array:
+        img_reshape = img.reshape((1, 28, 28))
+        imgs_tensor.append(transform(img_reshape))
+
+    imgs_tensor_reshape = Tensor(np.array(imgs_tensor)).reshape((-1, 1, 28, 28))
+    prediction = pred.predict(imgs_tensor_reshape)
+
     return {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
