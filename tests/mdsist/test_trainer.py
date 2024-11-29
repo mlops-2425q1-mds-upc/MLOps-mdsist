@@ -8,12 +8,10 @@ from unittest.mock import patch
 
 import pytest
 import torch
-from torch.utils.data import DataLoader, TensorDataset, random_split
+from torch.utils.data import DataLoader, TensorDataset
 from torchvision import transforms
 
-from mdsist.architectures import (
-    CNN,  # Update this line to the correct import path of your CNN class
-)
+from mdsist.architectures import CNN
 from mdsist.dataset import MdsistDataset
 from mdsist.trainer import Trainer
 
@@ -28,17 +26,14 @@ def mock_data_loader():
     )
 
     root_dir = Path(__file__).parent.parent.parent
-    path_to_test = os.path.join(root_dir, "data/processed/test.parquet")
+    path_to_train = os.path.join(root_dir, "data/processed/train.parquet")
+    path_to_val = os.path.join(root_dir, "data/processed/validation.parquet")
 
-    dataset = MdsistDataset(path_to_test, transform=transform)
+    train_dataset = MdsistDataset(path_to_train, transform=transform)
+    val_dataset = MdsistDataset(path_to_val, transform=transform)
 
-    # Split 80% train, 20% validation for testing
-    train_size = int(0.8 * len(dataset))
-    val_size = len(dataset) - train_size
-    train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
-
-    train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=2, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 
     return train_loader, val_loader
 
@@ -67,6 +62,23 @@ def trainer(mock_model, mock_optimizer):
     trainer = Trainer(model=mock_model, optimizer=mock_optimizer, device="cpu")
     reset_model_weights(trainer.model)  # Ensure weights are reset
     return trainer
+
+
+def test_data_loader(mock_data_loader):
+    """
+    Test data loader is correctly defined
+    """
+    train_loader, val_loader = mock_data_loader
+
+    assert len(train_loader.dataset) > 0, "The train dataset is empty!"
+    assert len(val_loader.dataset) > 0, "The validation dataset is empty!"
+
+    assert (
+        train_loader.batch_size == 64
+    ), f"Expected batch size of 64, but got {train_loader.batch_size}"
+    assert (
+        val_loader.batch_size == 64
+    ), f"Expected batch size of 64, but got {val_loader.batch_size}"
 
 
 def reset_model_weights(model):
@@ -181,13 +193,22 @@ def test_logging_metrics(trainer, mock_data_loader):
     reset_model_weights(trainer.model)
     train_loader, val_loader = mock_data_loader
 
-    with patch("mlflow.log_metric") as mock_log:
+    with (
+        patch("mlflow.start_run") as mock_start_run,
+        patch("mlflow.end_run") as _,
+        patch("mlflow.log_metric") as mock_log_metric,
+    ):
+
         trainer.train(train_loader, val_loader, epochs=1)
 
-    assert mock_log.call_count > 0, "MLflow did not log any metrics."
-    assert any(
-        "train_accuracy" in call[0][0] for call in mock_log.call_args_list
-    ), "train_accuracy not logged."
+        # Verificar que mlflow.start_run no fue llamado
+        mock_start_run.assert_not_called()
+
+        # Verificar que se están registrando las métricas
+        assert mock_log_metric.call_count > 0, "MLflow did not log any metrics."
+        assert any(
+            "train_accuracy" in call[0][0] for call in mock_log_metric.call_args_list
+        ), "train_accuracy not logged."
 
 
 if __name__ == "__main__":
