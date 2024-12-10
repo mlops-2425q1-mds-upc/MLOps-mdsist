@@ -182,3 +182,8 @@ emissions.csv
 
 # Trained models
 /models
+
+
+# Current csv files
+*.csv
+!reference_data.csv
