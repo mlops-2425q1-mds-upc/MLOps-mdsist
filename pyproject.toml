@@ -65,6 +65,17 @@ name = "torch"
 url = "https://download.pytorch.org/whl/cu124"
 priority = "explicit"
 
+[tool.coverage.run]
+omit = [
+  "mdsist/modeling/train.py",
+  "mdsist/modeling/test.py"
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = "tests/mdsist"
+addopts = "--junitxml=test_report/tests-report.xml --cov=mdsist --cov-report=html:test_report/coverage"
+
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.1"
 pytest = "^8.3.3"
