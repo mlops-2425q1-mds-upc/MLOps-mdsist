@@ -21,6 +21,7 @@ repos:
             - --max-locals=30
             - --ignore-imports=yes
             - --disable=redefined-outer-name
+            - --disable=duplicate-code
           
       
       - id: pynblint
