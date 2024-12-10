@@ -4,12 +4,14 @@ api module
 
 import io
 from http import HTTPStatus
+from typing import List
 
 import mlflow
 import numpy as np
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from PIL import Image
+from pydantic import BaseModel
 from torch import Tensor
 from torchinfo import ModelStatistics, summary
 from torchinfo.layer_info import LayerInfo
@@ -89,12 +91,25 @@ async def model_info():
     }
 
 
+class PredictionRequest(BaseModel):
+    """test class"""
+
+    true_values: List[int]
+
+
 @app.post("/mnist-model-prediction")
-async def predict(files: list[UploadFile] = File(...)):
+async def predict(prediction_request: PredictionRequest, files: List[UploadFile] = File(...)):
     """
     predicts from png image
     """
-    print(format)
+
+    true_values = prediction_request.true_values
+    print(true_values)
+
+    if true_values is not None and len(files) != len(true_values):
+        raise HTTPException(
+            status_code=400, detail="The number of true values must equal the number of files."
+        )
 
     def png_to_bytearray(pngimage):
         # Create a BytesIO object from the binary data
