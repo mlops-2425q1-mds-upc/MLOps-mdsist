@@ -9,9 +9,8 @@ from typing import List
 import mlflow
 import numpy as np
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from PIL import Image
-from pydantic import BaseModel
 from torch import Tensor
 from torchinfo import ModelStatistics, summary
 from torchinfo.layer_info import LayerInfo
@@ -91,22 +90,18 @@ async def model_info():
     }
 
 
-class PredictionRequest(BaseModel):
-    """test class"""
-
-    true_values: List[int]
-
-
 @app.post("/mnist-model-prediction")
-async def predict(prediction_request: PredictionRequest, files: List[UploadFile] = File(...)):
+async def predict(true_values: str = Form(None), files: List[UploadFile] = File(...)):
     """
     predicts from png image
     """
-
-    true_values = prediction_request.true_values
     print(true_values)
 
-    if true_values is not None and len(files) != len(true_values):
+    if (
+        true_values is not None
+        and true_values != ""
+        and (len(files) != len(true_values) or not true_values.isdigit())
+    ):
         raise HTTPException(
             status_code=400, detail="The number of true values must equal the number of files."
         )
@@ -132,6 +127,8 @@ async def predict(prediction_request: PredictionRequest, files: List[UploadFile]
 
     imgs_tensor_reshape = Tensor(np.array(imgs_tensor)).reshape((-1, 1, 28, 28))
     prediction = pred.predict(imgs_tensor_reshape)
+
+    # Evidently should collect prediction and true_values
 
     return {
         "message": HTTPStatus.OK.phrase,
