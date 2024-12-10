@@ -71,7 +71,7 @@ omit = ["mdsist/modeling/train.py"]
 [tool.pytest.ini_options]
 pythonpath = "."
 testpaths = "tests/mdsist"
-addopts = "--junitxml=out/tests-report.xml --cov=src --cov-report=html:out/coverage"
+addopts = "--junitxml=test_report/tests-report.xml --cov=mdsist --cov-report=html:test_report/coverage"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.1"

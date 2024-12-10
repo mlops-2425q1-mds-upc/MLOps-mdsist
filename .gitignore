@@ -64,6 +64,8 @@ coverage.xml
 .pytest_cache/
 cover/
 mlruns/
+out/
+test_report/
 
 # Translations
 *.mo
