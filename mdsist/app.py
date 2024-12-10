@@ -2,7 +2,9 @@
 api module
 """
 
+import csv
 import io
+import time
 from http import HTTPStatus
 from typing import List
 
@@ -129,6 +131,21 @@ async def predict(true_values: str = Form(None), files: List[UploadFile] = File(
     prediction = pred.predict(imgs_tensor_reshape)
 
     # Evidently should collect prediction and true_values
+
+    if true_values is not None and true_values != "":
+        with open(r"current_data.csv", "a", newline="", encoding="utf-8") as csvfile:
+            fieldnames = ["timestamp", "true_label", "predicted_label", "raw_image"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            for i, predict in enumerate(prediction):
+                writer.writerow(
+                    {
+                        "timestamp": time.time(),
+                        "true_label": true_values[i],
+                        "predicted_label": predict,
+                        "raw_image": image_array[i].tobytes(),
+                    }
+                )
 
     return {
         "message": HTTPStatus.OK.phrase,
