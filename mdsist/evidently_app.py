@@ -10,6 +10,8 @@ from evidently.pipeline.column_mapping import ColumnMapping
 from evidently.report import Report
 from prometheus_client import Gauge, start_http_server
 
+from mdsist.config import MONITORING_DIR
+
 # Define metrics to export
 tl_drift_gauge = Gauge("true_label_drift_score", "True Label Drift Metric")
 pl_drift_gauge = Gauge("predicted_label_drift_score", "Predicted Label Drift Metric")
@@ -17,8 +19,10 @@ cur_accuracy_gauge = Gauge("current_model_accuracy", "Current Model Accuracy")
 ref_accuracy_gauge = Gauge("reference_model_accuracy", "Reference Model Accuracy")
 
 # Load your data
-reference_data = pd.read_csv("reference_data.csv")[["true_label", "predicted_label"]]
-current_data = pd.read_csv("current_data.csv")[["true_label", "predicted_label"]]
+reference_data = pd.read_csv(f"{MONITORING_DIR}/reference_data.csv")[
+    ["true_label", "predicted_label"]
+]
+current_data = pd.read_csv(f"{MONITORING_DIR}/current_data.csv")[["true_label", "predicted_label"]]
 
 # Map columns (adjust for your dataset)
 column_mapping = ColumnMapping(target="true_label", prediction="predicted_label")
