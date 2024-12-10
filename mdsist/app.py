@@ -19,6 +19,7 @@ from torchinfo.layer_info import LayerInfo
 from torchvision import transforms
 
 from mdsist import util
+from mdsist.config import MONITORING_DIR
 from mdsist.predictor import Predictor
 
 # Load envionment variables
@@ -133,7 +134,9 @@ async def predict(true_values: str = Form(None), files: List[UploadFile] = File(
     # Evidently should collect prediction and true_values
 
     if true_values is not None and true_values != "":
-        with open(r"current_data.csv", "a", newline="", encoding="utf-8") as csvfile:
+        with open(
+            f"{MONITORING_DIR}/current_data.csv", "a", newline="", encoding="utf-8"
+        ) as csvfile:
             fieldnames = ["timestamp", "true_label", "predicted_label", "raw_image"]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
