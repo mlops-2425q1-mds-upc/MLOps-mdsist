@@ -2,13 +2,17 @@
 api module
 """
 
+import csv
 import io
+import time
 from http import HTTPStatus
+from pathlib import Path
+from typing import List
 
 import mlflow
 import numpy as np
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from PIL import Image
 from torch import Tensor
 from torchinfo import ModelStatistics, summary
@@ -16,6 +20,7 @@ from torchinfo.layer_info import LayerInfo
 from torchvision import transforms
 
 from mdsist import util
+from mdsist.config import MONITORING_DIR
 from mdsist.predictor import Predictor
 
 # Load envionment variables
@@ -90,11 +95,20 @@ async def model_info():
 
 
 @app.post("/mnist-model-prediction")
-async def predict(files: list[UploadFile] = File(...)):
+async def predict(true_values: str = Form(None), files: List[UploadFile] = File(...)):
     """
     predicts from png image
     """
-    print(format)
+    print(true_values)
+
+    if (
+        true_values is not None
+        and true_values != ""
+        and (len(files) != len(true_values) or not true_values.isdigit())
+    ):
+        raise HTTPException(
+            status_code=400, detail="The number of true values must equal the number of files."
+        )
 
     def png_to_bytearray(pngimage):
         # Create a BytesIO object from the binary data
@@ -117,6 +131,31 @@ async def predict(files: list[UploadFile] = File(...)):
 
     imgs_tensor_reshape = Tensor(np.array(imgs_tensor)).reshape((-1, 1, 28, 28))
     prediction = pred.predict(imgs_tensor_reshape)
+
+    # Evidently should collect prediction and true_values
+
+    if true_values is not None and true_values != "":
+
+        newfile = not Path(f"{MONITORING_DIR}/current_data.csv").exists()
+
+        with open(
+            f"{MONITORING_DIR}/current_data.csv", "a", newline="", encoding="utf-8"
+        ) as csvfile:
+            fieldnames = ["timestamp", "true_label", "predicted_label", "raw_image"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            if newfile:
+                writer.writeheader()
+
+            for i, predict in enumerate(prediction):
+                writer.writerow(
+                    {
+                        "timestamp": time.time(),
+                        "true_label": true_values[i],
+                        "predicted_label": predict,
+                        "raw_image": image_array[i].tobytes(),
+                    }
+                )
 
     return {
         "message": HTTPStatus.OK.phrase,
