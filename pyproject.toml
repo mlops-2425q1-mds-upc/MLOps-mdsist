@@ -66,7 +66,10 @@ url = "https://download.pytorch.org/whl/cu124"
 priority = "explicit"
 
 [tool.coverage.run]
-omit = ["mdsist/modeling/train.py"]
+omit = [
+  "mdsist/modeling/train.py",
+  "mdsist/modeling/test.py"
+]
 
 [tool.pytest.ini_options]
 pythonpath = "."
