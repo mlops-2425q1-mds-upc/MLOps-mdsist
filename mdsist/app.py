@@ -38,6 +38,9 @@ model = mlflow.pytorch.load_model(MODEL_URI, map_location=device)
 
 pred = Predictor(model)
 
+if not Path(f"{MONITORING_DIR}/current_data.csv").exists():
+    with open(f"{MONITORING_DIR}/current_data.csv", mode='w', newline='') as file:
+        writer = csv.writer(file)
 
 @app.get("/")
 async def root():
