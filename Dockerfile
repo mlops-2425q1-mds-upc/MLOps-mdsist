@@ -19,6 +19,9 @@ RUN pip install poetry
 # Install Python dependencies
 RUN poetry cache clear --all . && poetry install --no-cache --without dev
 
+RUN mkdir evidently-monitoring
+COPY ./evidently-monitoring/reference_data.csv /app/evidently-monitoring/reference_data.csv
+
 COPY ./mdsist /app/mdsist
 
 CMD ["poetry", "run", "fastapi", "run", "mdsist/app.py", "--port", "80"]
