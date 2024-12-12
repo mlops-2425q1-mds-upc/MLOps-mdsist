@@ -4,6 +4,7 @@ services:
     container_name: mdsist_api
     ports:
       - 80:80
+      - 8100:8100
     restart: always
     pull_policy: always
     env_file: ".env"

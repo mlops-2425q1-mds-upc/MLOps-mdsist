@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+- job_name: 'node'
+  static_configs:
+  - targets:
+    - 'exporter.mdsist.fult.xyz'
+
+- job_name: 'evidentlyai'
+  static_configs:
+  - targets:
+    - 'evidently.mdsist.fult.xyz'
