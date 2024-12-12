@@ -1,0 +1,10 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 8080:9090
+    restart: always
+    volumes:
+      - ./config:/etc/prometheus
+      - ./data:/prometheus
