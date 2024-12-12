@@ -28,13 +28,7 @@ dvc repro
 
 1. Locate yourself in the root directory
 
-2. Run `coverage run -m pytest`. This will execute all the test files of the project
-
-3. Execute `coverage report` or `coverage html` in order to visually see the results. The latest generates a folder called `htmlcov`. From this folder, `index.html` is the file that contains the results. 
-    - In order to see its content, either:
-        - Run `open htmlcov/index.html`
-        - Manually right click on the file, select `Reveal in File Explorer` and double click the file from the File Explorer
-        - If you are using Linux, run `xdg-open htmlcov/index.html`
+2. Run `poetry run pytest`. This will execute all the test files of the project
 
 ## Project Organization
 
@@ -125,6 +119,25 @@ dvc repro
 ├── dvc.yaml
 │
 ├── pynblint_pre_commit.py
+│
+├── evidently-monitoring  
+│   │
+│   ├── reference_data
+│
+├── services  
+│   │
+│   ├── node_exporter
+│   │   │             
+│   │   ├── docker-compose
+│   │  
+│   ├── prometheus
+│   │   │             
+│   │   ├── docker-compose  
+│   │   │             
+│   │   ├── config
+│   │   │   │
+│   │   │   ├── prometheus.yml
+
 ```
 
 --------
