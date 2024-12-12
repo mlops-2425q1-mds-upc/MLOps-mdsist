@@ -38,6 +38,7 @@ model = mlflow.pytorch.load_model(MODEL_URI, map_location=device)
 
 pred = Predictor(model)
 
+
 @app.get("/")
 async def root():
     """
